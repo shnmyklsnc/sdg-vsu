@@ -29,12 +29,20 @@ const geistMono = Geist_Mono({
   weight: ["400"], // Regular
   style: ["normal"],
   display: "swap",
-})
+});
 
 // SEO Metadata
 export const metadata: Metadata = {
   title: "Visayas State University - Sustainable Development Goals",
-  description: "Sustainable developement goals of the Visayas State University.",
+  description:
+    "Sustainable developement goals of the Visayas State University.",
+  keywords:
+    "SDG, sustainability, university, impact rankings, THE rankings, VSU, Visayas State University",
+  openGraph: {
+    title: "THE Impact Rankings Documentation",
+    description: "University SDG initiatives and documentation",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
