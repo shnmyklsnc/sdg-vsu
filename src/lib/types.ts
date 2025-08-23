@@ -1,16 +1,10 @@
+import { LucideIcon } from "lucide-react";
+
 export interface SDG {
   id: number;
   title: string;
   description: string;
-  icon: string;
-  color: string;
-  documents: Document[];
-  articles: Article[];
-  stats: {
-    publications: number;
-    projects: number;
-    partnerships: number;
-  };
+  image: string;
 }
 
 export interface Document {
@@ -34,4 +28,10 @@ export interface Article {
   sdgIds: number[];
   featuredImage?: string;
   tags: string[];
+}
+
+export interface NavItem {
+  label: string;
+  href: string;
+  icon: LucideIcon;
 }

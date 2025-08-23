@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Montserrat, Roboto } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";
+import Header from "@/components/common/header";
 
 // VSU Brand Fonts based on brand guidelines
 // https://brandbook.vsu.edu.ph/sections/branding-elements
@@ -51,11 +53,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${montserrat.variable} ${roboto.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          disableTransitionOnChange
+        >
+          <Header />
+          <main className="flex-1">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );
