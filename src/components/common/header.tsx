@@ -36,6 +36,34 @@ export default function Header() {
 
   return (
     <header className="bg-primary/90 dark:bg-secondary/90 fixed top-0 z-50 w-full shadow-md backdrop-blur-md transition-all duration-300">
+      {/* Diamond Tiles Background with Fade */}
+      <div
+        className="absolute -top-22 -right-32 -z-1000 h-[160px] w-[250px]"
+        style={{
+          backgroundImage: 'url("/logo/Diamond Tiles.png")',
+          backgroundSize: "250px",
+          backgroundRepeat: "no-repeat",
+          opacity: 0.1,
+          maskImage:
+            "radial-gradient(circle at center, black 0%, transparent 100%)",
+          WebkitMaskImage:
+            "radial-gradient(circle at center, black 0%, transparent 100%)",
+        }}
+      />
+      <div
+        className="absolute top-0 -left-32 -z-1000 h-full w-[250px]"
+        style={{
+          backgroundImage: 'url("/logo/Diamond Tiles.png")',
+          backgroundSize: "250px",
+          backgroundRepeat: "no-repeat",
+          opacity: 0.1,
+          maskImage:
+            "radial-gradient(circle at center, black 0%, transparent 100%)",
+          WebkitMaskImage:
+            "radial-gradient(circle at center, black 0%, transparent 100%)",
+        }}
+      />
+
       <div className="flex h-18 items-center justify-between px-5">
         {/* Logo - Left section */}
         <div className="flex items-center gap-2">
@@ -99,14 +127,17 @@ export default function Header() {
               side="right"
               className="bg-primary dark:bg-secondary dark:text-primary w-72 border-none text-white"
             >
-              <Image
-                src="/logo/Wireframe Logo.png"
-                alt="Background wireframe"
-                width={1200}
-                height={600}
-                priority
-                className="absolute top-1/2 -right-62 -z-10 w-[180%] max-w-none -translate-y-1/2 opacity-10 brightness-300 filter dark:opacity-5 dark:brightness-100"
-              />
+              <div className="absolute top-1/2 -right-62 -z-10 w-[180%] max-w-none -translate-y-1/2">
+                <Image
+                  src="/logo/Wireframe Logo.png"
+                  alt="Background wireframe"
+                  width={1200}
+                  height={600}
+                  priority
+                  className="opacity-10 brightness-300 filter dark:opacity-5 dark:brightness-100"
+                />
+                <div className="via-primary/60 to-primary dark:via-secondary/60 dark:to-secondary absolute inset-0 bg-gradient-to-r from-transparent from-10% via-40% to-70%" />
+              </div>
               <SheetHeader>
                 <SheetTitle className="dark:text-primary text-white">
                   Explore Our SDGs
