@@ -1,7 +1,7 @@
 "use client";
 
 import { Moon, SunDim } from "lucide-react";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
 import { Label } from "../ui/label";
@@ -12,7 +12,6 @@ type props = {
 };
 
 export const AnimatedThemeToggler = ({ className }: props) => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -22,8 +21,7 @@ export const AnimatedThemeToggler = ({ className }: props) => {
     await document.startViewTransition(() => {
       flushSync(() => {
         setTheme(theme === "light" ? "dark" : "light");
-        const dark = document.documentElement.classList.toggle("dark");
-        setIsDarkMode(dark);
+        document.documentElement.classList.toggle("dark");
       });
     }).ready;
 
@@ -52,7 +50,7 @@ export const AnimatedThemeToggler = ({ className }: props) => {
   };
   return (
     <button ref={buttonRef} onClick={changeTheme} className={cn(className)}>
-      {isDarkMode ? <SunDim /> : <Moon />}
+      {theme === "light" ? <SunDim /> : <Moon />}
       <div className="flex flex-col text-left">
         {theme} Mode
         <Label className="dark:text-primary/70 text-xs text-white/70">

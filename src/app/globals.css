@@ -193,6 +193,26 @@
       opacity: 0.4;
     }
   }
+
+  --animate-marquee: marquee var(--duration) infinite linear;
+
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
 }
 
 body {
@@ -220,20 +240,18 @@ select {
   font-family: var(--font-sans);
 }
 
-.sdg-gradient {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.document-viewer {
-  @apply overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .galada {
+    font-family: "Galada", sans-serif;
   }
 }
 

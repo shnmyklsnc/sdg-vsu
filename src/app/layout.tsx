@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Montserrat, Roboto } from "next/font/google";
+import { Geist_Mono, Montserrat, Roboto, Galada } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import Header from "@/components/common/header";
+import HeaderMobile from "@/components/common/header-mobile";
 
 // VSU Brand Fonts based on brand guidelines
 // https://brandbook.vsu.edu.ph/sections/branding-elements
@@ -11,7 +11,7 @@ import Header from "@/components/common/header";
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], // Regular, Medium, Semibold, Bold
+  weight: ["400", "500", "600", "700", "800", "900"], // Regular, Medium, Semibold, Bold
   display: "swap",
 });
 
@@ -31,6 +31,13 @@ const geistMono = Geist_Mono({
   weight: ["400"], // Regular
   style: ["normal"],
   display: "swap",
+});
+
+// Galada - for fancy text (Regular version)
+const galada = Galada({
+  variable: "--font-galada",
+  subsets: ["latin"],
+  weight: ["400"], // Regular
 });
 
 // SEO Metadata
@@ -55,15 +62,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${montserrat.variable} ${roboto.variable} ${geistMono.variable} antialiased`}
+        className={`${galada.variable} ${montserrat.variable} ${roboto.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <Header />
-          <main className="flex-1">{children}</main>
+          <HeaderMobile />
+          <main className="mt-18">{children}</main>
         </ThemeProvider>
       </body>
     </html>

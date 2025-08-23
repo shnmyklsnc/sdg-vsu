@@ -25,7 +25,7 @@ import {
   CommandList,
 } from "../ui/command";
 
-export default function Header() {
+export default function HeaderMobile() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isCommandOpen, setIsCommandOpen] = useState<boolean>(false);
   const pathname = usePathname();
@@ -119,9 +119,14 @@ export default function Header() {
 
           {/* Hamburger Menu Button */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger className="dark:text-primary text-white">
-              <Menu />
-              <span className="sr-only">Toggle menu</span>
+            <SheetTrigger asChild>
+              <Button
+                aria-label="Toggle menu"
+                variant="ghost"
+                className="dark:text-primary text-white"
+              >
+                <Menu />
+              </Button>
             </SheetTrigger>
             <SheetContent
               side="right"
