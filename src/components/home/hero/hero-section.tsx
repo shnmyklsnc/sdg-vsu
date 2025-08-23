@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Highlighter } from "../magicui/highlighter";
+import { Highlighter } from "../../magicui/highlighter";
 import { useTheme } from "next-themes";
-import { Marquee } from "../magicui/marquee";
+import { Marquee } from "../../magicui/marquee";
 import { sdgs } from "@/lib/data";
 import SDGCard from "./sdg-card-marquee";
 
@@ -72,12 +72,12 @@ export default function HeroSection() {
 
         {/* Marquee section with fixed height */}
         <div className="w-full overflow-hidden">
-          <Marquee pauseOnHover className="[--duration:20s]">
+          <Marquee pauseOnHover className="[--duration:20s]" repeat={3}>
             {firstRow.map(sdg => (
               <SDGCard key={sdg.id} sdg={sdg} />
             ))}
           </Marquee>
-          <Marquee reverse pauseOnHover className="[--duration:20s]">
+          <Marquee reverse pauseOnHover className="[--duration:20s]" repeat={3}>
             {secondRow.map(sdg => (
               <SDGCard key={sdg.id} sdg={sdg} />
             ))}
