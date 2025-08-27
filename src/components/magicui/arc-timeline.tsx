@@ -149,15 +149,7 @@ export function ArcTimeline(props: ArcTimelineProps) {
           className
         )}
       >
-        <div
-          className="absolute aspect-square w-[160%] max-w-none transition-all duration-500 ease-in-out"
-          style={{
-            top: "125%",
-            left: "80%",
-            transform: `translate(-50%, -50%) rotate(0deg)`,
-            transformOrigin: `center ${circleWidth / 2.5}px`,
-          }}
-        >
+        <div className="absolute inset-0 top-50 aspect-square max-w-none transition-all duration-500 ease-in-out">
           <Image
             src="/logo/Wireframe Logo.png"
             alt="Background wireframe"
@@ -300,11 +292,14 @@ export function ArcTimeline(props: ArcTimelineProps) {
         </div>
       </div>
       {activeLine?.fullContent && (
-        <div className="animate-fadeIn mt-4">
+        <div
+          key={activeLine.time?.toString()}
+          className="animate-in fade-in mt-4 duration-500"
+        >
           <h5 className="text-muted-foreground mb-2 font-bold">
             {activeLine.time}
           </h5>
-          <p className="xs:text-base text-justify text-sm transition-opacity duration-300">
+          <p className="xs:text-base text-justify text-sm">
             {activeLine.fullContent}
           </p>
         </div>

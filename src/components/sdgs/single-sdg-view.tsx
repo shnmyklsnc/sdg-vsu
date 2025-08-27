@@ -90,14 +90,14 @@ export default function SingleSDGView({ id }: { id: number }) {
           alt="Mount Pangasugan Wireframe Image"
           width={1000}
           height={1000}
-          className="absolute inset-0 top-35 opacity-20"
+          className="absolute inset-0 top-35 hidden opacity-20 dark:block"
         />
         <Image
           src="/images/pangasugan.jpg"
           alt="Mount Pangasugan Image"
           width={1000}
           height={1000}
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 block opacity-10 dark:hidden"
         />
         <div className="flex items-center justify-between">
           <Link
@@ -356,13 +356,13 @@ export default function SingleSDGView({ id }: { id: number }) {
           <ArcTimeline
             data={timeline.timeline}
             defaultActiveStep={{
-              time: `${timeline.timeline[timeline.timeline.length - 1].time}`,
+              time: `${timeline.timeline[Math.floor(timeline.timeline.length / 2)].time}`,
               stepIndex: 0,
             }}
             arcConfig={{
               circleWidth: (timelineWidth - 32) * Math.PI,
               angleBetweenMinorSteps: 0.4,
-              lineCountFillBetweenSteps: 4,
+              lineCountFillBetweenSteps: 18,
               boundaryPlaceholderLinesCount: 45,
             }}
           />
@@ -386,7 +386,6 @@ export default function SingleSDGView({ id }: { id: number }) {
             arcConfig={{
               circleWidth: (timelineWidth - 32) * Math.PI,
               angleBetweenMinorSteps: 0.4,
-              lineCountFillBetweenSteps: 4,
               boundaryPlaceholderLinesCount: 45,
             }}
           />
