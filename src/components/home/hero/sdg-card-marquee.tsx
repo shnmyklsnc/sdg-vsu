@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function SDGCard({
   sdg,
-  size = 60,
+  size = 110,
 }: {
   sdg: SDG;
   size?: number;

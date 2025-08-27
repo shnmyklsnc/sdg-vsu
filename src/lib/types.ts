@@ -1,3 +1,4 @@
+import { ArcTimelineItem } from "@/components/magicui/arc-timeline";
 import { LucideIcon } from "lucide-react";
 
 export interface SDG {
@@ -5,29 +6,57 @@ export interface SDG {
   title: string;
   description: string;
   image: string;
+  targets: Target[];
+  color: string;
+  overview: string | React.ReactNode;
 }
 
 export interface Document {
-  id: string;
-  title: string;
+  id: number;
+  name: string;
+  relatedSdgs: SDG["id"][];
+  target: Target["name"] | Target["name"][];
+  indicator?: string | string[];
+  date: Date | "No Date";
+}
+
+export interface GroupedDocuments {
+  direct: Document[];
+  byIndicator: Record<
+    string,
+    {
+      mainDocs: Document[];
+      subgroups: Record<string, Document[]>;
+    }
+  >;
+}
+
+export interface TargetDocuments {
+  target: {
+    name: string;
+    description: string;
+  };
+  documents: GroupedDocuments;
+}
+
+export interface Target {
+  name: string;
   description: string;
-  type: "pdf" | "docx";
-  url: string;
-  date: string;
-  category: string;
 }
 
 export interface Article {
-  id: string;
-  slug: string;
   title: string;
-  excerpt: string;
-  content: string;
+  description: string;
+  href: string;
   author: string;
-  date: string;
-  sdgIds: number[];
-  featuredImage?: string;
-  tags: string[];
+  datePublished: Date | "No Date";
+  relatedSdgs: SDG["id"][];
+  thumbnail?: string;
+}
+
+export interface SDGTimeline {
+  relatedSdg: SDG["id"];
+  timeline: ArcTimelineItem[];
 }
 
 export interface NavItem {

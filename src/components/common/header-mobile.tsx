@@ -2,7 +2,7 @@
 
 import { navigationItems } from "@/lib/data";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -34,8 +34,41 @@ export default function HeaderMobile() {
     setIsOpen(false);
   };
 
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [lastScrollY, setLastScrollY] = useState<number>(0);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== "undefined") {
+        // If scrolling down, hide the header
+        if (window.scrollY > lastScrollY && window.scrollY > 100) {
+          setIsVisible(false);
+        }
+        // If scrolling up, show the header
+        else if (window.scrollY < lastScrollY) {
+          setIsVisible(true);
+        }
+
+        // Update last scroll position
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", controlNavbar);
+
+    // Clean up event listener
+    return () => {
+      window.removeEventListener("scroll", controlNavbar);
+    };
+  }, [lastScrollY]);
+
   return (
-    <header className="bg-primary/90 dark:bg-secondary/90 fixed top-0 z-50 w-full shadow-md backdrop-blur-md transition-all duration-300">
+    <header
+      className={`bg-primary/90 dark:bg-secondary/90 fixed top-0 z-50 w-full shadow-2xl backdrop-blur-md transition-all duration-300 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       {/* Diamond Tiles Background with Fade */}
       <div
         className="absolute -top-22 -right-32 -z-1000 h-[160px] w-[250px]"
@@ -66,46 +99,46 @@ export default function HeaderMobile() {
 
       <div className="flex h-18 items-center justify-between px-5">
         {/* Logo - Left section */}
-        <div className="flex items-center gap-2">
-          <div
-            className="hidden items-center gap-2 dark:flex"
-            aria-label="Visayas State University Logo"
-          >
-            <Image
-              src="/logo/VSU Brand Logo.png"
-              alt="Visayas State University Brand Logo"
-              width={40}
-              height={40}
-              priority
-            />
-            <Image
-              src="/logo/VSU Text Logo.png"
-              alt="Visayas State University Text Logo"
-              width={110}
-              height={110}
-              priority
-            />
-          </div>
-          <div
-            className="flex items-center gap-2 dark:hidden"
-            aria-label="Visayas State University Logo"
-          >
-            <Image
-              src="/logo/VSU Brand Logo (White).png"
-              alt="Visayas State University Brand Logo"
-              width={40}
-              height={40}
-              priority
-            />
-            <Image
-              src="/logo/VSU Text Logo (White).png"
-              alt="Visayas State University Text Logo"
-              width={110}
-              height={110}
-              priority
-            />
-          </div>
-        </div>
+        <Link
+          key="dark"
+          className="hidden items-center gap-2 dark:flex"
+          href="/"
+        >
+          <Image
+            src="/logo/VSU Brand Logo.png"
+            alt="Visayas State University Brand Logo"
+            width={40}
+            height={40}
+            priority
+          />
+          <Image
+            src="/logo/VSU Text Logo.png"
+            alt="Visayas State University Text Logo"
+            width={110}
+            height={110}
+            priority
+          />
+        </Link>
+        <Link
+          key="light"
+          className="flex items-center gap-2 dark:hidden"
+          href="/"
+        >
+          <Image
+            src="/logo/VSU Brand Logo (White).png"
+            alt="Visayas State University Brand Logo"
+            width={40}
+            height={40}
+            priority
+          />
+          <Image
+            src="/logo/VSU Text Logo (White).png"
+            alt="Visayas State University Text Logo"
+            width={110}
+            height={110}
+            priority
+          />
+        </Link>
 
         <div className="flex items-center gap-2">
           {/* Search Button */}
@@ -121,6 +154,7 @@ export default function HeaderMobile() {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button
+                id="navigation-sheet"
                 aria-label="Toggle menu"
                 variant="ghost"
                 className="dark:text-primary text-white"
@@ -129,8 +163,9 @@ export default function HeaderMobile() {
               </Button>
             </SheetTrigger>
             <SheetContent
+              aria-labelledby="navigation-sheet"
               side="right"
-              className="bg-primary dark:bg-secondary dark:text-primary w-72 border-none text-white"
+              className="bg-primary dark:bg-secondary dark:text-primary xs:w-72 w-63 border-none text-white"
             >
               <div className="absolute top-1/2 -right-62 -z-10 w-[180%] max-w-none -translate-y-1/2">
                 <Image
@@ -139,7 +174,7 @@ export default function HeaderMobile() {
                   width={1200}
                   height={600}
                   priority
-                  className="opacity-10 brightness-300 filter dark:opacity-5 dark:brightness-100"
+                  className="opacity-10 brightness-50 filter dark:opacity-10 dark:brightness-900"
                 />
                 <div className="via-primary/60 to-primary dark:via-secondary/60 dark:to-secondary absolute inset-0 bg-gradient-to-r from-transparent from-10% via-40% to-70%" />
               </div>
@@ -158,8 +193,9 @@ export default function HeaderMobile() {
                           variant="link"
                           className={cn(
                             "dark:text-primary w-full justify-start text-white",
-                            pathname === item.href &&
-                              "text-secondary underline dark:text-amber-100"
+                            pathname.split("/")[1].toLowerCase() ===
+                              item.href.split("/")[1].toLowerCase() &&
+                              "text-secondary underline dark:text-amber-700"
                           )}
                         >
                           <Link href={item.href} onClick={closeMenu}>
@@ -195,9 +231,12 @@ export default function HeaderMobile() {
                         />
                       </div>
                       <div className="dark:text-primary/70 text-sm text-white/70">
-                        <div className="dark:text-primary font-medium text-white">
+                        <Link
+                          href="https://vsu.edu.ph"
+                          className="dark:text-primary font-medium text-white"
+                        >
                           Visayas State University
-                        </div>
+                        </Link>
                         <div className="text-xs">
                           Sustainable Development Goals
                         </div>

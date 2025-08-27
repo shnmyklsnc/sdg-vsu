@@ -1,6 +1,14 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { ComponentPropsWithoutRef, ReactNode, useState } from "react";
+import {
+  ComponentPropsWithoutRef,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
+import Image from "next/image";
+import { Particles } from "./particles";
+import { useTheme } from "next-themes";
 
 export interface ArcTimelineItem {
   time: ReactNode;
@@ -8,6 +16,7 @@ export interface ArcTimelineItem {
     icon: ReactNode;
     content: ReactNode;
   }>;
+  fullContent?: ReactNode | string;
 }
 interface ArcTimelineProps extends ComponentPropsWithoutRef<"div"> {
   /**
@@ -55,9 +64,9 @@ interface ArcTimelineProps extends ComponentPropsWithoutRef<"div"> {
 }
 
 export function ArcTimeline(props: ArcTimelineProps) {
+  const { theme } = useTheme();
   const {
     className,
-    children,
     data,
     arcConfig = {},
     defaultActiveStep = {},
@@ -91,49 +100,186 @@ export function ArcTimeline(props: ArcTimelineProps) {
         -1 * count * angleBetweenMinorSteps * (lineCountFillBetweenSteps + 1) -
         angleBetweenMinorSteps * boundaryPlaceholderLinesCount
       );
-    },
+    }
   );
 
+  const [activeLine, setActiveLine] = useState<ArcTimelineItem | null>(
+    () => data.find(item => item.time === defaultActiveTime) || null
+  );
+
+  // Update active line when rotation changes
+  useEffect(() => {
+    let accumulatedSteps = 0;
+    const normalizedRotation = Math.abs(
+      circleContainerRotateDeg +
+        angleBetweenMinorSteps * boundaryPlaceholderLinesCount
+    );
+    const targetStep = Math.round(
+      normalizedRotation /
+        (angleBetweenMinorSteps * (lineCountFillBetweenSteps + 1))
+    );
+
+    for (const line of data) {
+      if (
+        targetStep >= accumulatedSteps &&
+        targetStep < accumulatedSteps + line.steps.length
+      ) {
+        setActiveLine(line);
+        break;
+      }
+      accumulatedSteps += line.steps.length;
+    }
+  }, [
+    circleContainerRotateDeg,
+    data,
+    angleBetweenMinorSteps,
+    lineCountFillBetweenSteps,
+    boundaryPlaceholderLinesCount,
+  ]);
+
   return (
-    <div
-      {...restProps}
-      className={cn("relative h-[380px] w-full overflow-hidden", className)}
-    >
+    <div className="relative">
+      <div className="absolute inset-0 z-1 h-full w-full overflow-hidden">
+        <Particles color={theme === "dark" ? "#fcd83d" : "#146939"} />
+      </div>
       <div
-        style={{
-          transform: `translateX(-50%) rotate(${circleContainerRotateDeg}deg)`,
-          width: `${circleWidth}px`,
-        }}
-        className="absolute left-1/2 top-28 aspect-square origin-center rounded-full transition-all duration-500 ease-in-out"
+        {...restProps}
+        className={cn(
+          "bg-secondary dark:bg-primary relative h-[380px] w-full overflow-hidden",
+          className
+        )}
       >
-        {data.map((line, lineIndex) => {
-          return (
-            <div key={`${lineIndex}`}>
-              {line.steps.map((step, stepIndex) => {
-                // calc the angle of the step
-                const angle =
-                  angleBetweenMinorSteps *
-                    (lineCountFillBetweenSteps + 1) *
-                    (data
-                      .slice(0, lineIndex)
-                      .map((item) => item.steps.length)
-                      .reduce((prev, current) => prev + current, 0) +
-                      stepIndex) +
-                  angleBetweenMinorSteps * boundaryPlaceholderLinesCount;
-                const isLastStep =
-                  lineIndex === data.length - 1 &&
-                  stepIndex === line.steps.length - 1;
-                const isFirstStep = lineIndex === 0 && stepIndex === 0;
-                // check if the step is active
-                const isActive =
-                  Math.abs(angle + circleContainerRotateDeg) < 0.01;
-                return (
-                  <div key={`${lineIndex}-${stepIndex}`}>
-                    {/* placeholder lines before the first step */}
-                    {isFirstStep && (
+        <div
+          className="absolute aspect-square w-[160%] max-w-none transition-all duration-500 ease-in-out"
+          style={{
+            top: "125%",
+            left: "80%",
+            transform: `translate(-50%, -50%) rotate(0deg)`,
+            transformOrigin: `center ${circleWidth / 2.5}px`,
+          }}
+        >
+          <Image
+            src="/logo/Wireframe Logo.png"
+            alt="Background wireframe"
+            width={400}
+            height={400}
+            priority
+            className="opacity-20 brightness-900 filter dark:opacity-5 dark:brightness-50"
+          />
+        </div>
+        <div
+          style={{
+            transform: `translateX(-50%) rotate(${circleContainerRotateDeg}deg)`,
+            width: `${circleWidth}px`,
+          }}
+          className="absolute top-28 left-1/2 z-2 aspect-square origin-center rounded-full transition-all duration-500 ease-in-out"
+        >
+          {data.map((line, lineIndex) => {
+            return (
+              <div key={`${lineIndex}`}>
+                {line.steps.map((step, stepIndex) => {
+                  // calc the angle of the step
+                  const angle =
+                    angleBetweenMinorSteps *
+                      (lineCountFillBetweenSteps + 1) *
+                      (data
+                        .slice(0, lineIndex)
+                        .map(item => item.steps.length)
+                        .reduce((prev, current) => prev + current, 0) +
+                        stepIndex) +
+                    angleBetweenMinorSteps * boundaryPlaceholderLinesCount;
+                  const isLastStep =
+                    lineIndex === data.length - 1 &&
+                    stepIndex === line.steps.length - 1;
+                  const isFirstStep = lineIndex === 0 && stepIndex === 0;
+                  // check if the step is active
+                  const isActive =
+                    Math.abs(angle + circleContainerRotateDeg) < 0.01;
+                  return (
+                    <div key={`${lineIndex}-${stepIndex}`}>
+                      {/* placeholder lines before the first step */}
+                      {isFirstStep && (
+                        <PlaceholderLines
+                          isFirstStep={true}
+                          isLastStep={false}
+                          angle={angle}
+                          angleBetweenMinorSteps={angleBetweenMinorSteps}
+                          lineCountFillBetweenSteps={lineCountFillBetweenSteps}
+                          boundaryPlaceholderLinesCount={
+                            boundaryPlaceholderLinesCount
+                          }
+                          lineIndex={lineIndex}
+                          stepIndex={stepIndex}
+                          circleWidth={circleWidth}
+                          circleContainerRotateDeg={circleContainerRotateDeg}
+                        />
+                      )}
+                      <div
+                        className={cn(
+                          "absolute top-0 left-1/2 -translate-x-1/2 cursor-pointer transition-all duration-200",
+                          isActive ? "h-[120px] w-[2px]" : "h-16 w-[1.5px]"
+                        )}
+                        style={{
+                          transformOrigin: `50% ${circleWidth / 2}px`,
+                          transform: `rotate(${angle}deg)`,
+                        }}
+                        onClick={() => {
+                          setCircleContainerRotateDeg(-1 * angle);
+                          setActiveLine(line);
+                        }}
+                      >
+                        <div
+                          className={cn(
+                            "h-full w-full transition-colors duration-200",
+                            isActive
+                              ? "bg-[var(--step-line-active-color,#146939)] dark:bg-[var(--step-line-active-color,#fcd83d)]"
+                              : "bg-[var(--step-line-inactive-color,#888)] dark:bg-[var(--step-line-inactive-color,#aaa)]"
+                          )}
+                          style={{
+                            transformOrigin: "center top",
+                            transform: `rotate(${
+                              -1 * angle - circleContainerRotateDeg
+                            }deg)`,
+                          }}
+                        >
+                          <div
+                            className={cn(
+                              "absolute bottom-0 left-1/2 aspect-square -translate-x-1/2",
+                              isActive
+                                ? "translate-y-[calc(100%_+_14px)] scale-[1.2] text-[var(--icon-active-color,#146939)] dark:text-[var(--icon-active-color,#fcd83d)]"
+                                : "translate-y-[calc(100%_+_4px)] scale-100 text-[var(--icon-inactive-color,#888)] dark:text-[var(--icon-inactive-color,#aaa)]"
+                            )}
+                          >
+                            {step.icon}
+                          </div>
+                          <p
+                            className={cn(
+                              "absolute bottom-0 left-1/2 line-clamp-3 flex w-[240px] -translate-x-1/2 translate-y-[calc(100%_+_42px)] items-center justify-center text-center text-sm transition-opacity duration-300 ease-in",
+                              "text-[var(--description-color,#146939)] dark:text-[var(--description-color,#fcd83d)]",
+                              isActive ? "opacity-100" : "opacity-0"
+                            )}
+                          >
+                            {step.content}
+                          </p>
+                        </div>
+                        {stepIndex === 0 && (
+                          <div
+                            className={cn(
+                              "absolute top-0 left-1/2 z-10 -translate-x-1/2 translate-y-[calc(-100%-24px)] whitespace-nowrap",
+                              isActive
+                                ? "font-bold text-[var(--time-active-color,#146939)] dark:text-[var(--time-active-color,#fcd83d)]"
+                                : "text-[var(--time-inactive-color,#888)] dark:text-[var(--time-inactive-color,#aaa)]"
+                            )}
+                          >
+                            {line.time}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* fill lines between steps, in the last step, fill the placeholder lines */}
                       <PlaceholderLines
-                        isFirstStep={true}
-                        isLastStep={false}
+                        isFirstStep={false}
+                        isLastStep={isLastStep}
                         angle={angle}
                         angleBetweenMinorSteps={angleBetweenMinorSteps}
                         lineCountFillBetweenSteps={lineCountFillBetweenSteps}
@@ -145,90 +291,24 @@ export function ArcTimeline(props: ArcTimelineProps) {
                         circleWidth={circleWidth}
                         circleContainerRotateDeg={circleContainerRotateDeg}
                       />
-                    )}
-                    <div
-                      className={cn(
-                        "absolute left-1/2 top-0 -translate-x-1/2 cursor-pointer transition-all duration-200",
-                        isActive ? "h-[120px] w-[2px]" : "h-16 w-[1.5px]",
-                      )}
-                      style={{
-                        transformOrigin: `50% ${circleWidth / 2}px`,
-                        transform: `rotate(${angle}deg)`,
-                      }}
-                      onClick={() => {
-                        setCircleContainerRotateDeg(-1 * angle);
-                      }}
-                    >
-                      <div
-                        className={cn(
-                          "h-full w-full transition-colors duration-200",
-                          isActive
-                            ? "bg-[var(--step-line-active-color,#888888)] dark:bg-[var(--step-line-active-color,#9780ff)]"
-                            : "bg-[var(--step-line-inactive-color,#b1b1b1)] dark:bg-[var(--step-line-inactive-color,#737373)]",
-                        )}
-                        style={{
-                          transformOrigin: "center top",
-                          transform: `rotate(${
-                            -1 * angle - circleContainerRotateDeg
-                          }deg)`,
-                        }}
-                      >
-                        <div
-                          className={cn(
-                            "absolute bottom-0 left-1/2 aspect-square -translate-x-1/2",
-                            isActive
-                              ? "translate-y-[calc(100%_+_14px)] scale-[1.2] text-[var(--icon-active-color,#555555)] dark:text-[var(--icon-active-color,#d4d4d4)]"
-                              : "translate-y-[calc(100%_+_4px)] scale-100 text-[var(--icon-inactive-color,#a3a3a3)] dark:text-[var(--icon-inactive-color,#a3a3a3)]",
-                          )}
-                        >
-                          {step.icon}
-                        </div>
-                        <p
-                          className={cn(
-                            "absolute bottom-0 left-1/2 line-clamp-3 flex w-[240px] -translate-x-1/2 translate-y-[calc(100%_+_42px)] items-center justify-center text-center text-sm transition-opacity duration-300 ease-in",
-                            "text-[var(--description-color,#555555)] dark:text-[var(--description-color,#d4d4d4)]",
-                            isActive ? "opacity-100" : "opacity-0",
-                          )}
-                        >
-                          {step.content}
-                        </p>
-                      </div>
-                      {stepIndex === 0 && (
-                        <div
-                          className={cn(
-                            "absolute left-1/2 top-0 z-10 -translate-x-1/2 translate-y-[calc(-100%-24px)] whitespace-nowrap",
-                            isActive
-                              ? "text-[var(--time-active-color,#555555)] dark:text-[var(--time-active-color,#d4d4d4)]"
-                              : "text-[var(--time-inactive-color,#a3a3a3)] dark:text-[var(--time-inactive-color,#a3a3a3)]",
-                          )}
-                        >
-                          {line.time}
-                        </div>
-                      )}
                     </div>
-
-                    {/* fill lines between steps, in the last step, fill the placeholder lines */}
-                    <PlaceholderLines
-                      isFirstStep={false}
-                      isLastStep={isLastStep}
-                      angle={angle}
-                      angleBetweenMinorSteps={angleBetweenMinorSteps}
-                      lineCountFillBetweenSteps={lineCountFillBetweenSteps}
-                      boundaryPlaceholderLinesCount={
-                        boundaryPlaceholderLinesCount
-                      }
-                      lineIndex={lineIndex}
-                      stepIndex={stepIndex}
-                      circleWidth={circleWidth}
-                      circleContainerRotateDeg={circleContainerRotateDeg}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
       </div>
+      {activeLine?.fullContent && (
+        <div className="animate-fadeIn mt-4">
+          <h5 className="text-muted-foreground mb-2 font-bold">
+            {activeLine.time}
+          </h5>
+          <p className="xs:text-base text-justify text-sm transition-opacity duration-300">
+            {activeLine.fullContent}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -272,7 +352,7 @@ function PlaceholderLines(props: PlaceholderLinesProps) {
       {Array(
         isLastStep || isFirstStep
           ? boundaryPlaceholderLinesCount
-          : lineCountFillBetweenSteps,
+          : lineCountFillBetweenSteps
       )
         .fill("")
         .map((_, fillIndex) => {
@@ -280,14 +360,14 @@ function PlaceholderLines(props: PlaceholderLinesProps) {
           return (
             <div
               key={`${lineIndex}-${stepIndex}-${fillIndex}`}
-              className="absolute left-1/2 top-0 h-[34px] w-[1px] -translate-x-1/2"
+              className="absolute top-0 left-1/2 h-[34px] w-[1px] -translate-x-1/2"
               style={{
                 transformOrigin: `50% ${circleWidth / 2}px`,
                 transform: `rotate(${fillAngle}deg)`,
               }}
             >
               <div
-                className="h-full w-full bg-[var(--placeholder-line-color,#a1a1a1)] dark:bg-[var(--placeholder-line-color,#737373)]"
+                className="h-full w-full bg-[var(--placeholder-line-color,#888)] dark:bg-[var(--placeholder-line-color,#aaa)]"
                 style={{
                   transformOrigin: "center top",
                   transform: `rotate(${

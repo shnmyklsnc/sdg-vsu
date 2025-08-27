@@ -3,6 +3,7 @@ import { Geist_Mono, Montserrat, Roboto, Galada } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import HeaderMobile from "@/components/common/header-mobile";
+import Footer from "@/components/common/footer";
 
 // VSU Brand Fonts based on brand guidelines
 // https://brandbook.vsu.edu.ph/sections/branding-elements
@@ -19,7 +20,7 @@ const montserrat = Montserrat({
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
-  weight: ["400", "500", "700"], // Regular, Medium, Bold
+  weight: ["400", "500", "600", "700", "800", "900"], // Regular, Medium, Bold
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -70,7 +71,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <HeaderMobile />
-          <main className="mt-18">{children}</main>
+          <main>{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
