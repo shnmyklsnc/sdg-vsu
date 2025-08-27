@@ -82,13 +82,27 @@ export default function SingleSDGView({ id }: { id: number }) {
 
       <section
         aria-label="SDG Description"
-        className="mb-8 flex aspect-square flex-col justify-between gap-14 px-4 pt-4 pb-8"
+        className="relative mb-8 flex aspect-square flex-col justify-between gap-14 px-4 pt-4 pb-8"
         style={{ background: `${sdg.color}` }}
       >
+        <Image
+          src="/logo/Mt Pangasugan.png"
+          alt="Mount Pangasugan Wireframe Image"
+          width={1000}
+          height={1000}
+          className="absolute inset-0 top-35 opacity-20"
+        />
+        <Image
+          src="/images/pangasugan.jpg"
+          alt="Mount Pangasugan Image"
+          width={1000}
+          height={1000}
+          className="absolute inset-0 opacity-10"
+        />
         <div className="flex items-center justify-between">
           <Link
             href="/sdgs"
-            className="font-medium text-white underline underline-offset-4"
+            className="z-1 font-medium text-white underline underline-offset-4"
           >
             Goals
           </Link>

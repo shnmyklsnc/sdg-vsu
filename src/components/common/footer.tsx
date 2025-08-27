@@ -58,18 +58,18 @@ export default function Footer() {
         aria-label="Social links"
         className="border-primary flex gap-4 border-b-1 pb-4 dark:border-white/70"
       >
-        <span className="font-extrabold text-[#146939] dark:text-white/70">
+        <span className="font-extrabold text-[#17321a]/80 dark:text-white/70">
           We Are Social:
         </span>
         <div className="flex items-center gap-4" aria-label="Socials">
           <LinkPreview url="https://facebook.com/visayasstateu">
-            <SiFacebook className="h-4 w-4 text-[#146939] transition-colors duration-300 hover:text-[#0866ff] dark:text-white/70 dark:hover:text-[#0866ff]" />
+            <SiFacebook className="h-4 w-4 text-[#17321a]/80 transition-colors duration-300 hover:text-[#0866ff] dark:text-white/70 dark:hover:text-[#0866ff]" />
           </LinkPreview>
           <LinkPreview url="https://x.com/visayasstateu">
-            <SiX className="h-4 w-4 text-[#146939] transition-colors duration-300 hover:text-[##000000] dark:text-white/70 dark:hover:text-[##000000]" />
+            <SiX className="h-4 w-4 text-[#17321a]/80 transition-colors duration-300 hover:text-[##000000] dark:text-white/70 dark:hover:text-[##000000]" />
           </LinkPreview>
           <LinkPreview url="https://www.youtube.com/visayasstateu">
-            <SiYoutube className="h-4 w-4 text-[#146939] transition-colors duration-300 hover:text-[#FF0000] dark:text-white/70 dark:hover:text-[#FF0000]" />
+            <SiYoutube className="h-4 w-4 text-[#17321a]/80 transition-colors duration-300 hover:text-[#FF0000] dark:text-white/70 dark:hover:text-[#FF0000]" />
           </LinkPreview>
         </div>
       </div>
@@ -80,21 +80,21 @@ export default function Footer() {
         role="list"
         className="border-primary space-y-2 border-b-1 px-4 pb-4 dark:border-white/70"
       >
-        <address className="xs:text-base flex items-center gap-2 text-sm font-medium text-[#146939] not-italic dark:text-white/70">
+        <address className="xs:text-base flex items-center gap-2 text-sm font-medium text-[#17321a]/80 not-italic dark:text-white/70">
           <MapPin className="xs:h-8 xs:w-8 mb-2 h-4 w-4" />
           Visca, Baybay City, Leyte <br /> Philippines 6541
         </address>
-        <address className="xs:text-base flex items-center gap-2 text-sm font-medium text-[#146939] not-italic dark:text-white/70">
+        <address className="xs:text-base flex items-center gap-2 text-sm font-medium text-[#17321a]/80 not-italic dark:text-white/70">
           <Phone className="xs:h-8 xs:w-8 mb-2 h-4 w-4" />
           Trunkline +63 (53) 565 0600 <br /> Fax +63 (53) 563 7067
         </address>
-        <address className="xs:text-base flex items-center gap-2 text-sm font-medium text-[#146939] not-italic dark:text-white/70">
+        <address className="xs:text-base flex items-center gap-2 text-sm font-medium text-[#17321a]/80 not-italic dark:text-white/70">
           <AtSign className="xs:h-8 xs:w-8 h-4 w-4" />
           uimpa@vsu.edu.ph
         </address>
       </div>
 
-      <span className="xs:text-base my-4 w-full text-center text-sm font-bold tracking-tight text-[#146939] dark:text-white/70">
+      <span className="xs:text-base my-4 w-full text-center text-sm font-bold tracking-tight text-[#17321a]/80 dark:text-white/70">
         &copy; {new Date().getFullYear()} Visayas State University
       </span>
 

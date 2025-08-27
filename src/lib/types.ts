@@ -11,6 +11,11 @@ export interface SDG {
   overview: string | React.ReactNode;
 }
 
+export interface SDGCardWithShimmerProps {
+  sdgId: number;
+  href?: string;
+}
+
 export interface Document {
   id: number;
   name: string;
