@@ -1,5 +1,11 @@
 "use client";
-import { articlesData, documentsData, progressAndInfo, sdgs } from "@/lib/data";
+import {
+  articlesData,
+  documentsData,
+  impactRankingsYearData,
+  progressAndInfo,
+  sdgs,
+} from "@/lib/data";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import {
@@ -11,15 +17,9 @@ import {
 import Link from "next/link";
 import ArticleCard from "./article-card";
 import { useEffect, useMemo, useState } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
-import { groupDocumentsByTarget, sortArticlesByDate } from "@/lib/utils";
-import DocumentItem from "./document-item";
+import { sortArticlesByDate } from "@/lib/utils";
 import { ArcTimeline } from "../magicui/arc-timeline";
+import { InstitutionalDocumentsSection } from "./institutional-documents";
 
 export default function SingleSDGView({ id }: { id: number }) {
   const [timelineWidth, setTimelineWidth] = useState<number>(0);
@@ -40,11 +40,6 @@ export default function SingleSDGView({ id }: { id: number }) {
     const sorted = sortArticlesByDate(filtered);
     return sorted.slice(0, 3); // Top 3 most recent
   }, [id]);
-
-  // Optimized documents retrieval and grouping
-  const targetDocuments = useMemo(() => {
-    return groupDocumentsByTarget(documentsData, sdg.targets, id);
-  }, [id, sdg.targets]);
 
   // Progress and info timeline
   const timeline = useMemo(
@@ -197,153 +192,12 @@ export default function SingleSDGView({ id }: { id: number }) {
         <p className="xs:text-base text-justify text-sm">{sdg.overview}</p>
       </section>
 
-      <section className="mb-8 px-4">
-        <div className="mb-4 flex flex-col gap-2">
-          <h3
-            className="xs:text-3xl text-xl font-bold"
-            id="institutional-documents"
-          >
-            Institutional Documents
-          </h3>
-          <div className="bg-primary dark:bg-secondary h-0.5 w-10" />
-        </div>
-        <div className="space-y-2">
-          {targetDocuments.map(({ target, documents }) => {
-            const hasIndicatorDocs =
-              Object.keys(documents.byIndicator).length > 0;
-
-            return (
-              <div
-                key={target.name}
-                className="bg-card overflow-hidden rounded-md border shadow-sm"
-              >
-                {/* Target Header Section */}
-                <div className="p-4">
-                  <div className="flex items-start gap-4">
-                    {/* SDG Icon */}
-                    <Image
-                      src={`/sdgs/${sdg.id}.png`}
-                      alt={`SDG ${sdg.id} Logo`}
-                      width={64}
-                      height={64}
-                      className="hidden dark:block"
-                    />
-                    <Image
-                      src={`/sdgs/inverted/${sdg.id}.png`}
-                      alt={`SDG ${sdg.id} Logo`}
-                      width={64}
-                      height={64}
-                      className="block dark:hidden"
-                    />
-
-                    <div className="flex min-w-0 flex-1 flex-col gap-1">
-                      <div className="text-muted-foreground text-sm">
-                        Target
-                      </div>
-                      <h4 className="text-2xl font-bold tracking-wider">
-                        {target.name}
-                      </h4>
-                      <p className="mt-1 text-justify text-sm whitespace-normal">
-                        {target.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Direct Target Documents */}
-                  {documents.direct.length > 0 && (
-                    <div aria-label="Main documents" className="mt-4">
-                      <span className="text-muted-foreground text-sm font-medium">
-                        {target.name}
-                      </span>
-                      <div className="mt-1 space-y-2">
-                        {documents.direct.map(doc => (
-                          <DocumentItem key={doc.id} doc={doc} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Indicator Documents Accordion */}
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem
-                    value={`indicators-${target.name}`}
-                    className="border-t border-b-0"
-                  >
-                    <AccordionTrigger
-                      className="px-4 py-4"
-                      disabled={!hasIndicatorDocs}
-                    >
-                      <span className="text-muted-foreground text-sm font-medium">
-                        {hasIndicatorDocs ? "Other documents" : "No documents"}
-                      </span>
-                    </AccordionTrigger>
-                    <AccordionContent className="bg-muted border-t px-4 py-3">
-                      <div className="space-y-4">
-                        {Object.entries(documents.byIndicator).map(
-                          ([mainIndicator, { mainDocs, subgroups }]) => (
-                            <div key={mainIndicator}>
-                              <h5 className="mb-2 text-base font-semibold tracking-wide">
-                                {mainIndicator}
-                              </h5>
-
-                              {/* Main indicator documents */}
-                              {mainDocs.length > 0 && (
-                                <div className="mb-3 space-y-2">
-                                  {mainDocs.map(doc => (
-                                    <DocumentItem key={doc.id} doc={doc} />
-                                  ))}
-                                </div>
-                              )}
-
-                              {/* Subgroup accordions */}
-                              {Object.keys(subgroups).length > 0 && (
-                                <div className="space-y-2 pl-1">
-                                  {Object.entries(subgroups).map(
-                                    ([subgroup, docs]) => (
-                                      <Accordion
-                                        key={`${mainIndicator}-${subgroup}`}
-                                        type="single"
-                                        collapsible
-                                        className="border-muted-foreground/20 border-l-2 pt-1 pl-3"
-                                      >
-                                        <AccordionItem
-                                          value={`${mainIndicator}-${subgroup}`}
-                                          className="border-0"
-                                        >
-                                          <AccordionTrigger className="px-0 py-2">
-                                            <span className="text-sm font-medium">
-                                              {mainIndicator}-{subgroup}
-                                            </span>
-                                          </AccordionTrigger>
-                                          <AccordionContent className="px-0 pt-2 pb-1">
-                                            <div className="space-y-2">
-                                              {docs.map(doc => (
-                                                <DocumentItem
-                                                  key={doc.id}
-                                                  doc={doc}
-                                                />
-                                              ))}
-                                            </div>
-                                          </AccordionContent>
-                                        </AccordionItem>
-                                      </Accordion>
-                                    )
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      <InstitutionalDocumentsSection
+        documents={documentsData}
+        metrics={sdg.metrics}
+        sdg={sdg}
+        impactRankingsYears={impactRankingsYearData}
+      />
 
       <section className="mb-7 px-4">
         <div className="mb-4 flex flex-col gap-2">
@@ -393,13 +247,15 @@ export default function SingleSDGView({ id }: { id: number }) {
       </section>
 
       <div className="mb-7 space-y-2">
-        <Image
-          src={`/sdgs/long/${sdg.id}.png`}
-          alt={`SDG ${sdg.id} Logo Long`}
-          width={300}
-          height={300}
-          className="w-full px-4"
-        />
+        <Link href="/sdgs">
+          <Image
+            src={`/sdgs/long/${sdg.id}.png`}
+            alt={`SDG ${sdg.id} Logo Long`}
+            width={300}
+            height={300}
+            className="w-full px-4"
+          />
+        </Link>
 
         <div
           aria-label="SDG Navigation Controls"

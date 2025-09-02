@@ -40,6 +40,12 @@ export default function HeaderMobile() {
   useEffect(() => {
     const controlNavbar = () => {
       if (typeof window !== "undefined") {
+        const hash = window.location.hash.slice(1);
+
+        if (hash) {
+          setIsVisible(false);
+        }
+
         // If scrolling down, hide the header
         if (window.scrollY > lastScrollY && window.scrollY > 100) {
           setIsVisible(false);

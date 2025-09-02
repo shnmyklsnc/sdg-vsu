@@ -6,7 +6,7 @@ export interface SDG {
   title: string;
   description: string;
   image: string;
-  targets: Target[];
+  metrics: Metric[];
   color: string;
   overview: string | React.ReactNode;
 }
@@ -16,13 +16,19 @@ export interface SDGCardWithShimmerProps {
   href?: string;
 }
 
+export interface ImpactRankingsYear {
+  id: number;
+  year: number; // new Date().getFullYear()
+}
+
 export interface Document {
   id: number;
   name: string;
   relatedSdgs: SDG["id"][];
-  target: Target["name"] | Target["name"][];
-  indicator?: string | string[];
+  metric: Metric["id"] | Metric["id"][];
+  indicator?: Indicator["id"] | Indicator["id"][];
   date: Date | "No Date";
+  impactRankingsYear: ImpactRankingsYear['id'];
 }
 
 export interface GroupedDocuments {
@@ -30,23 +36,28 @@ export interface GroupedDocuments {
   byIndicator: Record<
     string,
     {
-      mainDocs: Document[];
-      subgroups: Record<string, Document[]>;
+      indicator: Indicator;
+      documents: Document[];
     }
   >;
 }
 
-export interface TargetDocuments {
-  target: {
-    name: string;
-    description: string;
-  };
+export interface MetricDocuments {
+  metric: Metric;
   documents: GroupedDocuments;
 }
 
-export interface Target {
+export interface Metric {
+  id: string;
   name: string;
-  description: string;
+  indicators: Indicator[];
+  impactRankingsYear: ImpactRankingsYear["id"];
+}
+
+export interface Indicator {
+  id: string;
+  name: string;
+  dataSource: "bibliometric" | "portal" | "evidence";
 }
 
 export interface Article {
@@ -56,6 +67,8 @@ export interface Article {
   author: string;
   datePublished: Date | "No Date";
   relatedSdgs: SDG["id"][];
+  metric?: Metric["name"] | Metric["name"][];
+  indicator?: string | string[];
   thumbnail?: string;
 }
 

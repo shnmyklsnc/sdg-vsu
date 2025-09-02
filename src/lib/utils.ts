@@ -4,8 +4,8 @@ import {
   Article,
   Document,
   GroupedDocuments,
-  Target,
-  TargetDocuments,
+  Metric,
+  MetricDocuments,
 } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -17,71 +17,47 @@ export function normalizeToArray<T>(value: T | T[] | undefined): T[] {
   return Array.isArray(value) ? value : [value];
 }
 
-export function parseIndicator(indicator: string) {
-  const parts = indicator.split("-");
-  const suffix = parts.length > 1 ? parts[1] : null;
-
-  // Check if the suffix starts with a digit
-  const isDigitSuffix = suffix ? /^\d/.test(suffix) : false;
-
-  return {
-    main: parts[0],
-    subgroup: isDigitSuffix ? null : suffix, // Only use as subgroup if it's a letter
-    isDigitSuffix,
-  };
-}
-
-export function groupDocumentsByTarget(
+export function groupDocumentsByMetric(
   documents: Document[],
-  targets: Target[],
+  metrics: Metric[],
   sdgId: number
-): TargetDocuments[] {
-  return targets.map(target => {
+): MetricDocuments[] {
+  return metrics.map(metric => {
     const grouped: GroupedDocuments = {
       direct: [],
       byIndicator: {},
     };
 
-    // Filter documents that belong to this SDG and target
+    // Filter documents that belong to this SDG and metric
     documents.forEach(doc => {
       // Check if document belongs to this SDG
       if (!doc.relatedSdgs.includes(sdgId)) return;
 
-      // Normalize targets and indicators to arrays
-      const docTargets = normalizeToArray(doc.target);
+      // Normalize metrics and indicators to arrays
+      const docMetrics = normalizeToArray(doc.metric);
       const docIndicators = normalizeToArray(doc.indicator);
 
-      // Check if document belongs to this target
-      const targetIndex = docTargets.indexOf(target.name);
-      if (targetIndex === -1) return;
+      // Check if document belongs to this metric
+      const metricIndex = docMetrics.indexOf(metric.id);
+      if (metricIndex === -1) return;
 
-      // Get the corresponding indicator for this target
-      const indicator = docIndicators[targetIndex];
+      // Get the corresponding indicator for this metric
+      const indicatorId = docIndicators[metricIndex];
 
-      if (!indicator) {
-        // Direct target document (no indicator)
+      if (!indicatorId) {
+        // Direct metric document (no indicator)
         grouped.direct.push(doc);
       } else {
-        // Parse the indicator
-        const { main, subgroup } = parseIndicator(indicator);
-
-        // Initialize indicator group if needed
-        if (!grouped.byIndicator[main]) {
-          grouped.byIndicator[main] = {
-            mainDocs: [],
-            subgroups: {},
-          };
-        }
-
-        if (subgroup) {
-          // Add to subgroup (only for letter suffixes)
-          if (!grouped.byIndicator[main].subgroups[subgroup]) {
-            grouped.byIndicator[main].subgroups[subgroup] = [];
+        // Group by indicator ID
+        const indicator = metric.indicators.find(ind => ind.id === indicatorId);
+        if (indicator) {
+          if (!grouped.byIndicator[indicatorId]) {
+            grouped.byIndicator[indicatorId] = {
+              indicator,
+              documents: [],
+            };
           }
-          grouped.byIndicator[main].subgroups[subgroup].push(doc);
-        } else {
-          // Add to main indicator docs (includes digit suffixes)
-          grouped.byIndicator[main].mainDocs.push(doc);
+          grouped.byIndicator[indicatorId].documents.push(doc);
         }
       }
     });
@@ -90,24 +66,14 @@ export function groupDocumentsByTarget(
     grouped.direct = sortDocumentsByDate(grouped.direct);
 
     // Sort documents within each indicator group
-    Object.keys(grouped.byIndicator).forEach(indicator => {
-      grouped.byIndicator[indicator].mainDocs = sortDocumentsByDate(
-        grouped.byIndicator[indicator].mainDocs
-      );
-
-      // Sort documents within each subgroup
-      Object.keys(grouped.byIndicator[indicator].subgroups).forEach(
-        subgroup => {
-          grouped.byIndicator[indicator].subgroups[subgroup] =
-            sortDocumentsByDate(
-              grouped.byIndicator[indicator].subgroups[subgroup]
-            );
-        }
+    Object.keys(grouped.byIndicator).forEach(indicatorId => {
+      grouped.byIndicator[indicatorId].documents = sortDocumentsByDate(
+        grouped.byIndicator[indicatorId].documents
       );
     });
 
     return {
-      target,
+      metric,
       documents: grouped,
     };
   });
