@@ -2227,6 +2227,52 @@ export const articlesData: Article[] = [
     thumbnail:
       "/articles/1853-vsu-intensifies-food-security-efforts-root-crop-production-amidst-covid19/thumbnail.png",
   },
+  {
+    href: "https://www.vsu.edu.ph/articles/news/2785-proudviscans-computer-science-students-bags-2nd-place-in-visayas-hackathon-advances-to-nat-l-championship",
+    title:
+      "#ProudViscans Computer Science students bag 2nd place in Visayas Hackathon, advance to nat'l championship",
+    description:
+      "Team CS Code from the Department of Computer Science and Technology (DCST) of Visayas State University-Main Campus earned second place at the Byte Forward Hackathon-Visayas Leg, a regional tech competition that brought together the brightest student coders across the islands.",
+    author: "Riza Mae Maningo",
+    datePublished: new Date(2025, 8, 1),
+    relatedSdgs: [],
+    thumbnail:
+      "/articles/2785-proudviscans-computer-science-students-bags-2nd-place-in-visayas-hackathon-advances-to-nat-l-championship/thumbnail.png",
+  },
+  {
+    href: "https://www.vsu.edu.ph/articles/news/2784-proudviscan-alumnus-tops-national-coconut-r-d-congress-with-pest-control-research",
+    title:
+      "#ProudViscan alumnus tops National Coconut R&D Congress with pest control research",
+    description:
+      "Cañas' winning entry, “Characterization and Prevalence of Oryctes Nudivirus (ORNV) Infections among Coconut Rhinoceros Beetles (Orocytes rhinoceros) in the Philippines”, is based on his thesis work in VSU Department of Pest Management (VSU-DPM.)",
+    author: "Riza Mae Maningo",
+    datePublished: new Date(2025, 7, 29),
+    relatedSdgs: [],
+    thumbnail:
+      "/articles/2784-proudviscan-alumnus-tops-national-coconut-r-d-congress-with-pest-control-research/thumbnail.png",
+  },
+  {
+    href: "https://www.vsu.edu.ph/articles/news/2783-vsu-president-yepes-elected-as-new-suc-acap-president",
+    title: "VSU President Yepes elected as new SUC-ACAP President",
+    description:
+      "Visayas State University (VSU) President Prose Ivy G. Yepes has been elected as the new President of the State Universities and Colleges-Association of Colleges of Agriculture in the Philippines (SUC-ACAP), a national network of public higher education institutions with strong academic and research programs in agriculture and allied sciences.",
+    author: "Mike Laurence V. Lumen",
+    datePublished: new Date(2025, 7, 28),
+    relatedSdgs: [],
+    thumbnail:
+      "/articles/2783-vsu-president-yepes-elected-as-new-suc-acap-president/thumbnail.jpg",
+  },
+  {
+    href: "https://www.vsu.edu.ph/articles/news/2779-vsu-suspends-classes-evacuates-500-students-due-to-flooding",
+    title: "VSU suspends classes, evacuates 500 students due to flooding",
+    description:
+      "Visayas State University (VSU) suspended work and classes on Wednesday, August 27, 2025, after heavy rains triggered flooding in parts of the main campus and nearby barangays, forcing the evacuation of around 500 students.",
+    author: "Mike Laurence V. Lumen",
+    datePublished: new Date(2025, 7, 27),
+    relatedSdgs: [13],
+    thumbnail:
+      "/articles/2779-vsu-suspends-classes-evacuates-500-students-due-to-flooding/thumbnail.jpg",
+  },
 ];
 
 export const documentsData: Document[] = [
