@@ -21,6 +21,7 @@ import { sortArticlesByDate } from "@/lib/utils";
 import { ArcTimeline } from "../magicui/arc-timeline";
 import { InstitutionalDocumentsSection } from "./institutional-documents";
 import PageTitle from "../common/page-title";
+import Strip from "../common/strip";
 
 export default function SingleSDGView({ id }: { id: number }) {
   const [timelineWidth, setTimelineWidth] = useState<number>(0);
@@ -59,81 +60,88 @@ export default function SingleSDGView({ id }: { id: number }) {
 
       <section
         aria-label="SDG Description"
-        className="relative mb-8 flex aspect-square flex-col justify-between gap-14 px-4 pt-4 pb-8"
+        className="relative mb-8 overflow-hidden lg:container"
         style={{ background: `${sdg.color}` }}
       >
-        <Image
-          src="/logo/Mt Pangasugan.png"
-          alt="Mount Pangasugan Wireframe Image"
-          width={1000}
-          height={1000}
-          className="absolute inset-0 top-35 hidden h-auto w-auto object-cover opacity-20 dark:block"
-        />
-        <Image
-          src="/images/pangasugan.jpg"
-          alt="Mount Pangasugan Image"
-          width={1000}
-          height={1000}
-          className="absolute inset-0 block h-auto w-auto object-cover opacity-10 dark:hidden"
-        />
-        <div className="flex items-center justify-between">
-          <Link
-            href="/sdgs"
-            className="z-1 font-medium text-white underline underline-offset-4"
-          >
-            Goals
-          </Link>
+        <div className="relative flex flex-col justify-between gap-14 px-4 pt-4 pb-8">
           <Image
-            src={`/sdgs/logo/${sdg.id}.png`}
-            alt={`SDG ${sdg.id} Clean Logo`}
-            width={50}
-            height={50}
-            className="h-auto max-w-[42px] object-cover"
+            src="/logo/Mt Pangasugan.png"
+            alt="Mount Pangasugan Wireframe Image"
+            fill
+            className="hidden h-auto w-auto object-contain opacity-10 dark:block"
           />
-        </div>
-        <div className="flex flex-col gap-14">
-          <div>
-            <h2
-              className="text-4xl font-bold tracking-tight text-white"
-              id="sdg-description"
+          <Image
+            src="/images/pangasugan.jpg"
+            alt="Mount Pangasugan Image"
+            fill
+            className="block h-auto w-auto object-cover opacity-10 dark:hidden"
+          />
+          <div className="flex items-center justify-between">
+            <Link
+              href="/sdgs"
+              className="z-1 font-medium text-white underline underline-offset-4"
             >
-              {sdg.description}
-            </h2>
-            <div className="mt-4 ml-1 h-0.5 w-20 bg-white" />
+              Goals
+            </Link>
+            <Image
+              src={`/sdgs/logo/${sdg.id}.png`}
+              alt={`SDG ${sdg.id} Clean Logo`}
+              width={50}
+              height={50}
+              className="h-auto max-w-[42px] object-cover lg:hidden"
+            />
           </div>
-          <div
-            aria-label="SDG Navigation Controls"
-            role="navigation"
-            className="flex items-center gap-2"
-          >
-            <Button asChild className="group text-white" variant="ghost">
-              <Link
-                href={`/sdgs/${prevSDG}`}
-                className="flex items-center gap-2"
+          <div className="flex flex-col gap-14">
+            <div>
+              <h2
+                className="text-4xl font-bold tracking-tight text-white lg:text-5xl"
+                id="sdg-description"
               >
-                <span className="transform transition-transform duration-200 group-hover:-translate-x-1 group-active:-translate-x-3">
-                  <ArrowLeft />
-                </span>
-                <span>Previous</span>
-              </Link>
-            </Button>
+                {sdg.description}
+              </h2>
+              <div className="mt-4 ml-1 h-0.5 w-20 bg-white" />
+            </div>
+            <div
+              aria-label="SDG Navigation Controls"
+              role="navigation"
+              className="z-10 flex items-center gap-2"
+            >
+              <Button asChild className="group text-white" variant="ghost">
+                <Link
+                  href={`/sdgs/${prevSDG}`}
+                  className="flex items-center gap-2"
+                >
+                  <span className="transform transition-transform duration-200 group-hover:-translate-x-1 group-active:-translate-x-3">
+                    <ArrowLeft />
+                  </span>
+                  <span>Previous</span>
+                </Link>
+              </Button>
 
-            <Button className="group text-white" variant="ghost" asChild>
-              <Link
-                href={`/sdgs/${nextSDG}`}
-                className="flex items-center gap-2"
-              >
-                <span>Next</span>
-                <span className="transform transition-transform duration-200 group-hover:translate-x-1 group-active:translate-x-3">
-                  <ArrowRight />
-                </span>
-              </Link>
-            </Button>
+              <Button className="group text-white" variant="ghost" asChild>
+                <Link
+                  href={`/sdgs/${nextSDG}`}
+                  className="flex items-center gap-2"
+                >
+                  <span>Next</span>
+                  <span className="transform transition-transform duration-200 group-hover:translate-x-1 group-active:translate-x-3">
+                    <ArrowRight />
+                  </span>
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
+        <Image
+          src={`/sdgs/logo/${sdg.id}.png`}
+          alt={`SDG ${sdg.id} Clean Logo`}
+          width={200}
+          height={200}
+          className="absolute right-10 bottom-10 hidden h-[80px] w-auto object-cover lg:block"
+        />
       </section>
 
-      <section className="mb-4 px-4">
+      <section className="mb-4 px-4 lg:container">
         <div className="mb-4 flex items-center gap-4">
           <div className="bg-primary dark:bg-secondary h-0.5 w-10" />
           <h3 className="xs:text-3xl text-2xl font-bold" id="related-articles">
@@ -141,7 +149,7 @@ export default function SingleSDGView({ id }: { id: number }) {
           </h3>
         </div>
         {articles.length > 0 ? (
-          <ol className="mb-4 flex flex-col gap-4">
+          <ol className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:[&>li:last-child:nth-child(odd)]:col-span-2 lg:[&>li:last-child:nth-child(odd)]:col-span-1">
             {articles.map(article => (
               <li key={article.href}>
                 <ArticleCard article={article} />
@@ -149,7 +157,7 @@ export default function SingleSDGView({ id }: { id: number }) {
             ))}
           </ol>
         ) : (
-          <p className="text-muted-foreground mb-4">
+          <p className="text-muted-foreground mb-4 py-10 text-center">
             No related articles found.
           </p>
         )}
@@ -162,9 +170,9 @@ export default function SingleSDGView({ id }: { id: number }) {
           </div>
         )}
       </section>
-      <div className="bg-primary dark:bg-secondary mb-5 h-5 w-full" />
+      <Strip />
 
-      <section className="mb-8 px-4">
+      <section className="mb-16 px-4 lg:container">
         <div className="mb-4 flex flex-col gap-2">
           <h3 className="xs:text-3xl text-2xl font-bold" id="overview">
             Overview
@@ -181,7 +189,7 @@ export default function SingleSDGView({ id }: { id: number }) {
         impactRankingsYears={impactRankingsYearData}
       />
 
-      <section className="mb-7 px-4">
+      <section className="mb-16 px-4 lg:container">
         <div className="mb-4 flex flex-col gap-2">
           <h3 className="xs:text-3xl text-2xl font-bold" id="progress-and-info">
             Progress and Info
@@ -194,12 +202,6 @@ export default function SingleSDGView({ id }: { id: number }) {
             defaultActiveStep={{
               time: `${timeline.timeline[Math.floor(timeline.timeline.length / 2)].time}`,
               stepIndex: 0,
-            }}
-            arcConfig={{
-              circleWidth: (timelineWidth - 32) * Math.PI,
-              angleBetweenMinorSteps: 0.4,
-              lineCountFillBetweenSteps: 18,
-              boundaryPlaceholderLinesCount: 45,
             }}
           />
         ) : (
@@ -228,16 +230,19 @@ export default function SingleSDGView({ id }: { id: number }) {
         )}
       </section>
 
-      <div className="mb-7 space-y-2">
-        <Link href="/sdgs">
+      <div className="mb-7 block md:hidden">
+        <button
+          className="w-full"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
           <Image
             src={`/sdgs/long/${sdg.id}.png`}
             alt={`SDG ${sdg.id} Logo Long`}
-            width={300}
+            width={1000}
             height={300}
-            className="h-auto w-full object-cover px-4"
+            className="mb-2 h-auto w-full object-cover px-4"
           />
-        </Link>
+        </button>
 
         <div
           aria-label="SDG Navigation Controls"
@@ -270,6 +275,50 @@ export default function SingleSDGView({ id }: { id: number }) {
             </Link>
           </Button>
         </div>
+      </div>
+      <div
+        className="mb-7 hidden h-30 items-center md:grid md:grid-cols-[0.5fr_1fr_0.5fr] lg:container"
+        aria-label="SDG Navigation Controls"
+        role="navigation"
+      >
+        <Button
+          asChild
+          className="group text-primary dark:text-secondary justify-start"
+          variant="ghost"
+        >
+          <Link href={`/sdgs/${prevSDG}`} className="flex items-center gap-2">
+            <span className="transform transition-transform duration-200 group-hover:-translate-x-1 group-active:-translate-x-3">
+              <ArrowLeft />
+            </span>
+            <span>Previous</span>
+          </Link>
+        </Button>
+
+        <button
+          className="w-full"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <Image
+            src={`/sdgs/long/${sdg.id}.png`}
+            alt={`SDG ${sdg.id} Logo Long`}
+            width={1000}
+            height={300}
+            className="mb-2 h-full w-full object-contain px-4"
+          />
+        </button>
+
+        <Button
+          className="group text-primary dark:text-secondary justify-end"
+          variant="ghost"
+          asChild
+        >
+          <Link href={`/sdgs/${nextSDG}`} className="flex items-center gap-2">
+            <span>Next</span>
+            <span className="transform transition-transform duration-200 group-hover:translate-x-1 group-active:translate-x-3">
+              <ArrowRight />
+            </span>
+          </Link>
+        </Button>
       </div>
       <div className="bg-primary dark:bg-secondary h-2 w-full" />
     </article>

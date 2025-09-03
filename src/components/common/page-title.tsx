@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ReactNode, useEffect, useRef, useState } from "react";
+import Strip from "./strip";
 
 export default function PageTitle({ title }: { title: ReactNode }) {
   const [scrollY, setScrollY] = useState(0);
@@ -33,7 +34,7 @@ export default function PageTitle({ title }: { title: ReactNode }) {
     <>
       <section className="bg-secondary dark:bg-primary relative flex h-[300px] overflow-hidden sm:h-[350px] md:h-[350px] lg:h-[450px]">
         <div className="relative z-10 container mx-auto flex h-full w-full items-center justify-center px-4 pt-18">
-          <h1 className="dark:text-secondary xs:text-3xl line-clamp-2 max-w-3xl text-center text-2xl font-bold text-white sm:text-5xl lg:text-6xl">
+          <h1 className="dark:text-secondary xs:text-3xl line-clamp-2 max-w-3xl text-center text-2xl font-bold text-white sm:text-5xl lg:text-6xl xl:max-w-5xl">
             {title}
           </h1>
         </div>
@@ -59,7 +60,7 @@ export default function PageTitle({ title }: { title: ReactNode }) {
 
         <div className="to-secondary dark:to-primary absolute inset-0 bg-gradient-to-b from-transparent from-20% via-transparent via-70% to-100%" />
       </section>
-      <div className="bg-primary dark:bg-secondary mb-5 h-5 w-full" />
+      <Strip />
     </>
   );
 }

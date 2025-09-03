@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { useSearchParams } from "next/navigation";
+import { InfoIcon } from "lucide-react";
 
 export function InstitutionalDocumentsSection({
   documents,
@@ -141,7 +142,7 @@ export function InstitutionalDocumentsSection({
   }, [filteredMetrics, metrics]);
 
   return (
-    <section className="mb-8">
+    <section className="mb-16 lg:container">
       {/* Documents Section */}
       <div className="px-4">
         <div className="mb-4 flex flex-col gap-2">
@@ -177,126 +178,151 @@ export function InstitutionalDocumentsSection({
             className="animate-in fade-in-50 space-y-2 duration-500"
             key={selectedYearData.year}
           >
-            {metricDocuments.map(({ metric, documents }) => {
-              const documentsLength = Object.keys(documents.byIndicator).length;
-              const hasIndicatorDocs = documentsLength > 0;
-
-              const metricIsBiblioMetric = metric.indicators.every(
-                indicator => indicator.dataSource === "bibliometric"
-              );
-
-              if (
-                metric.impactRankingsYear !==
+            {metricDocuments.filter(
+              ({ metric }) =>
+                metric.impactRankingsYear ===
                 selectedYearData.impactRankingsYearId
-              )
-                return null;
+            ).length === 0 ? (
+              <div className="bg-card flex flex-col items-center justify-center rounded-md border p-8 shadow-sm">
+                <div className="text-muted-foreground bg-muted/50 flex h-16 w-16 items-center justify-center rounded-full">
+                  <InfoIcon className="h-8 w-8" />
+                </div>
+                <h3 className="mt-4 text-xl font-medium">
+                  No Metrics Available
+                </h3>
+                <p className="text-muted-foreground mt-2 max-w-md text-center text-sm">
+                  There are no metrics available for SDG {sdg.id} in{" "}
+                  {selectedYearData.year}. Please try selecting a different year
+                  or check back later for updates.
+                </p>
+              </div>
+            ) : (
+              metricDocuments.map(({ metric, documents }) => {
+                const documentsLength = Object.keys(
+                  documents.byIndicator
+                ).length;
+                const hasIndicatorDocs = documentsLength > 0;
 
-              return (
-                <div
-                  key={`${metric.id}-${selectedYearData.year}`}
-                  id={`metric-${metric.id}`}
-                  ref={el => {
-                    metricRefs.current[metric.id] = el;
-                  }}
-                  className="bg-card relative scroll-mt-4 rounded-md border shadow-sm"
-                >
-                  {/* Metric Header Section */}
-                  <div className="p-4">
-                    <div className="flex items-start gap-4">
-                      {/* SDG Icon */}
-                      <Image
-                        src={`/sdgs/${sdg.id}.png`}
-                        alt={`SDG ${sdg.id} Logo`}
-                        width={64}
-                        height={64}
-                        className="hidden h-auto w-auto object-cover dark:block"
-                      />
-                      <Image
-                        src={`/sdgs/inverted/${sdg.id}.png`}
-                        alt={`SDG ${sdg.id} Logo`}
-                        width={64}
-                        height={64}
-                        className="block h-auto w-auto object-cover dark:hidden"
-                      />
+                const metricIsBiblioMetric = metric.indicators.every(
+                  indicator => indicator.dataSource === "bibliometric"
+                );
 
-                      <div className="flex min-w-0 flex-1 flex-col gap-1">
-                        <div className="text-muted-foreground text-sm">
-                          Metric
+                if (
+                  metric.impactRankingsYear !==
+                  selectedYearData.impactRankingsYearId
+                )
+                  return null;
+
+                return (
+                  <div
+                    key={`${metric.id}-${selectedYearData.year}`}
+                    id={`metric-${metric.id}`}
+                    ref={el => {
+                      metricRefs.current[metric.id] = el;
+                    }}
+                    className="bg-card relative scroll-mt-4 rounded-md border shadow-sm"
+                  >
+                    {/* Metric Header Section */}
+                    <div className="p-4">
+                      <div className="flex items-start gap-4">
+                        {/* SDG Icon */}
+                        <Image
+                          src={`/sdgs/${sdg.id}.png`}
+                          alt={`SDG ${sdg.id} Logo`}
+                          width={64}
+                          height={64}
+                          className="hidden h-auto w-auto object-cover dark:block"
+                        />
+                        <Image
+                          src={`/sdgs/inverted/${sdg.id}.png`}
+                          alt={`SDG ${sdg.id} Logo`}
+                          width={64}
+                          height={64}
+                          className="block h-auto w-auto object-cover dark:hidden"
+                        />
+
+                        <div className="flex min-w-0 flex-1 flex-col gap-1">
+                          <div className="text-muted-foreground text-sm">
+                            Metric
+                          </div>
+                          <h4 className="text-2xl font-bold tracking-wider">
+                            {metric.id}
+                          </h4>
+                          <p className="mt-1 text-justify text-sm whitespace-normal">
+                            {metric.name}
+                          </p>
                         </div>
-                        <h4 className="text-2xl font-bold tracking-wider">
-                          {metric.id}
-                        </h4>
-                        <p className="mt-1 text-justify text-sm whitespace-normal">
-                          {metric.name}
-                        </p>
                       </div>
+
+                      {/* Direct Metric Documents */}
+                      {documents.direct.length > 0 && (
+                        <div aria-label="Main documents" className="mt-4">
+                          <span className="text-muted-foreground text-sm font-medium">
+                            {metric.id}
+                          </span>
+                          <div className="mt-1 space-y-2">
+                            {documents.direct.map(doc => (
+                              <DocumentItem key={doc.id} doc={doc} />
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Direct Metric Documents */}
-                    {documents.direct.length > 0 && (
-                      <div aria-label="Main documents" className="mt-4">
-                        <span className="text-muted-foreground text-sm font-medium">
-                          {metric.id}
-                        </span>
-                        <div className="mt-1 space-y-2">
-                          {documents.direct.map(doc => (
-                            <DocumentItem key={doc.id} doc={doc} />
-                          ))}
-                        </div>
-                      </div>
+                    {/* Indicator Documents Accordion */}
+                    {!metricIsBiblioMetric && hasIndicatorDocs && (
+                      <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem
+                          value={`indicators-${metric.id}`}
+                          className="border-t border-b-0"
+                        >
+                          <AccordionTrigger className="cursor-pointer px-4 py-4">
+                            <span className="text-muted-foreground text-sm font-medium">
+                              Documents
+                            </span>
+                          </AccordionTrigger>
+                          <AccordionContent className="bg-muted border-t px-4 py-3">
+                            <div className="space-y-4">
+                              {Object.entries(documents.byIndicator)
+                                .sort(([a], [b]) =>
+                                  a.localeCompare(b, undefined, {
+                                    numeric: true,
+                                  })
+                                )
+                                .map(
+                                  ([
+                                    indicatorId,
+                                    { indicator, documents: docs },
+                                  ]) => (
+                                    <div
+                                      key={`${indicatorId}-${selectedYearData.year}`}
+                                    >
+                                      <h5 className="scroll-mt-4 text-base font-semibold tracking-wide">
+                                        {indicatorId}
+                                      </h5>
+                                      <p className="text-muted-foreground mb-2 text-sm">
+                                        {indicator.name}
+                                      </p>
+                                      <div className="space-y-2">
+                                        {docs.map(doc => (
+                                          <DocumentItem
+                                            key={doc.id}
+                                            doc={doc}
+                                          />
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )
+                                )}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
                     )}
                   </div>
-
-                  {/* Indicator Documents Accordion */}
-                  {!metricIsBiblioMetric && hasIndicatorDocs && (
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem
-                        value={`indicators-${metric.id}`}
-                        className="border-t border-b-0"
-                      >
-                        <AccordionTrigger className="cursor-pointer px-4 py-4">
-                          <span className="text-muted-foreground text-sm font-medium">
-                            Documents
-                          </span>
-                        </AccordionTrigger>
-                        <AccordionContent className="bg-muted border-t px-4 py-3">
-                          <div className="space-y-4">
-                            {Object.entries(documents.byIndicator)
-                              .sort(([a], [b]) =>
-                                a.localeCompare(b, undefined, {
-                                  numeric: true,
-                                })
-                              )
-                              .map(
-                                ([
-                                  indicatorId,
-                                  { indicator, documents: docs },
-                                ]) => (
-                                  <div
-                                    key={`${indicatorId}-${selectedYearData.year}`}
-                                  >
-                                    <h5 className="scroll-mt-4 text-base font-semibold tracking-wide">
-                                      {indicatorId}
-                                    </h5>
-                                    <p className="text-muted-foreground mb-2 text-sm">
-                                      {indicator.name}
-                                    </p>
-                                    <div className="space-y-2">
-                                      {docs.map(doc => (
-                                        <DocumentItem key={doc.id} doc={doc} />
-                                      ))}
-                                    </div>
-                                  </div>
-                                )
-                              )}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  )}
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         )}
       </div>

@@ -333,176 +333,180 @@ export default function HeaderMobile() {
   } else {
     return (
       <header
-        className={`bg-primary/90 dark:bg-secondary/90 fixed top-0 left-1/2 z-50 w-full -translate-x-1/2 overflow-hidden shadow-2xl backdrop-blur-md transition-all duration-300 lg:container ${
+        className={`bg-primary/90 dark:bg-secondary/90 fixed top-0 left-1/2 z-50 w-full -translate-x-1/2 overflow-hidden shadow-2xl backdrop-blur-md transition-all duration-300 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        {/* Diamond Tiles Background with Fade */}
-        <div
-          className="absolute -top-22 -right-32 -z-1000 h-[160px] w-[250px]"
-          style={{
-            backgroundImage: 'url("/logo/Diamond Tiles.png")',
-            backgroundSize: "250px",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.1,
-            maskImage:
-              "radial-gradient(circle at center, black 0%, transparent 100%)",
-            WebkitMaskImage:
-              "radial-gradient(circle at center, black 0%, transparent 100%)",
-          }}
-        />
-        <div
-          className="absolute top-0 -left-32 -z-1000 h-full w-[250px]"
-          style={{
-            backgroundImage: 'url("/logo/Diamond Tiles.png")',
-            backgroundSize: "250px",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.1,
-            maskImage:
-              "radial-gradient(circle at center, black 0%, transparent 100%)",
-            WebkitMaskImage:
-              "radial-gradient(circle at center, black 0%, transparent 100%)",
-          }}
-        />
+        <div className="lg:container">
+          {/* Diamond Tiles Background with Fade */}
+          <div
+            className="absolute -top-22 -right-32 -z-1000 h-[160px] w-[250px]"
+            style={{
+              backgroundImage: 'url("/logo/Diamond Tiles.png")',
+              backgroundSize: "250px",
+              backgroundRepeat: "no-repeat",
+              opacity: 0.1,
+              maskImage:
+                "radial-gradient(circle at center, black 0%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(circle at center, black 0%, transparent 100%)",
+            }}
+          />
+          <div
+            className="absolute top-0 -left-32 -z-1000 h-full w-[250px]"
+            style={{
+              backgroundImage: 'url("/logo/Diamond Tiles.png")',
+              backgroundSize: "250px",
+              backgroundRepeat: "no-repeat",
+              opacity: 0.1,
+              maskImage:
+                "radial-gradient(circle at center, black 0%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(circle at center, black 0%, transparent 100%)",
+            }}
+          />
 
-        <div className="flex h-18 items-center justify-between px-5">
-          {/* Logo - Left section */}
-          <div className="flex items-center gap-8">
-            <Link
-              key="dark"
-              className="hidden items-center gap-2 dark:flex"
-              href="/"
-            >
-              <Image
-                src="/logo/VSU Brand Logo.png"
-                alt="Visayas State University Brand Logo"
-                width={40}
-                height={40}
-                priority
-                className="h-auto w-auto object-cover"
-              />
-              <Image
-                src="/logo/VSU Text Logo.png"
-                alt="Visayas State University Text Logo"
-                width={110}
-                height={110}
-                priority
-                className="h-auto w-auto object-cover"
-              />
-            </Link>
-            <Link
-              key="light"
-              className="flex items-center gap-2 dark:hidden"
-              href="/"
-            >
-              <Image
-                src="/logo/VSU Brand Logo (White).png"
-                alt="Visayas State University Brand Logo"
-                width={40}
-                height={40}
-                priority
-                className="h-auto w-auto object-cover"
-              />
-              <Image
-                src="/logo/VSU Text Logo (White).png"
-                alt="Visayas State University Text Logo"
-                width={110}
-                height={110}
-                priority
-                className="h-auto w-auto object-cover"
-              />
-            </Link>
-            <nav>
-              <ul className="flex items-center">
-                {navigationItems.map(item => (
-                  <li key={item.label}>
-                    <Button
-                      asChild
-                      variant="link"
-                      className={cn(
-                        "dark:text-primary w-full justify-start text-white",
-                        pathname.split("/")[1].toLowerCase() ===
-                          item.href.split("/")[1].toLowerCase() &&
-                          "text-secondary underline dark:text-amber-700"
-                      )}
-                    >
-                      <Link href={item.href} onClick={closeMenu}>
-                        <item.icon className="mr-2 h-4 w-4" />
-                        <span className="relative">{item.label}</span>
-                      </Link>
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
+          <div className="flex h-18 items-center justify-between px-5">
+            {/* Logo - Left section */}
+            <div className="flex items-center gap-8">
+              <Link
+                key="dark"
+                className="hidden items-center gap-2 dark:flex"
+                href="/"
+              >
+                <Image
+                  src="/logo/VSU Brand Logo.png"
+                  alt="Visayas State University Brand Logo"
+                  width={40}
+                  height={40}
+                  priority
+                  className="h-auto w-auto object-cover"
+                />
+                <Image
+                  src="/logo/VSU Text Logo.png"
+                  alt="Visayas State University Text Logo"
+                  width={110}
+                  height={110}
+                  priority
+                  className="h-auto w-auto object-cover"
+                />
+              </Link>
+              <Link
+                key="light"
+                className="flex items-center gap-2 dark:hidden"
+                href="/"
+              >
+                <Image
+                  src="/logo/VSU Brand Logo (White).png"
+                  alt="Visayas State University Brand Logo"
+                  width={40}
+                  height={40}
+                  priority
+                  className="h-auto w-auto object-cover"
+                />
+                <Image
+                  src="/logo/VSU Text Logo (White).png"
+                  alt="Visayas State University Text Logo"
+                  width={110}
+                  height={110}
+                  priority
+                  className="h-auto w-auto object-cover"
+                />
+              </Link>
+              <nav>
+                <ul className="flex items-center">
+                  {navigationItems.map(item => (
+                    <li key={item.label}>
+                      <Button
+                        asChild
+                        variant="link"
+                        className={cn(
+                          "dark:text-primary w-full justify-start text-white",
+                          pathname.split("/")[1].toLowerCase() ===
+                            item.href.split("/")[1].toLowerCase() &&
+                            "text-secondary underline dark:text-amber-700"
+                        )}
+                      >
+                        <Link href={item.href} onClick={closeMenu}>
+                          <item.icon className="mr-2 h-4 w-4" />
+                          <span className="relative">{item.label}</span>
+                        </Link>
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
 
-          <div className="flex h-full items-center gap-3">
-            {/* Search Button */}
-            <Button
-              variant="outline"
-              className="dark:text-primary/70 dark:hover:text-primary/60 relative h-8 w-full justify-start rounded-[0.5rem] text-sm font-normal text-white/30 hover:text-white/60 sm:pr-12 md:w-40 lg:w-56 xl:w-64"
-              onClick={() => setIsCommandOpen(true)}
-            >
-              <span className="hidden lg:inline-flex">Search documents...</span>
-              <span className="inline-flex lg:hidden">Search...</span>
-              <kbd className="pointer-events-none absolute top-[0.3rem] right-[0.3rem] hidden h-5 items-center gap-1 rounded border border-green-900/80 bg-green-900/80 px-1.5 font-mono text-[10px] font-medium text-white/60 opacity-100 select-none sm:flex dark:border-yellow-600/80 dark:bg-yellow-600/80 dark:text-white/80">
-                <span className="text-xs">⌘</span>K
-              </kbd>
-            </Button>
-            <div className="flex h-3 items-center">
-              <Separator
-                orientation="vertical"
-                className="dark:bg-primary/50 bg-white"
-              />
+            <div className="flex h-full items-center gap-3">
+              {/* Search Button */}
+              <Button
+                variant="outline"
+                className="dark:text-primary/70 dark:hover:text-primary/60 relative h-8 w-full justify-start rounded-[0.5rem] text-sm font-normal text-white/30 hover:text-white/60 sm:pr-12 md:w-40 lg:w-56 xl:w-64"
+                onClick={() => setIsCommandOpen(true)}
+              >
+                <span className="hidden lg:inline-flex">
+                  Search documents...
+                </span>
+                <span className="inline-flex lg:hidden">Search...</span>
+                <kbd className="pointer-events-none absolute top-[0.3rem] right-[0.3rem] hidden h-5 items-center gap-1 rounded border border-green-900/80 bg-green-900/80 px-1.5 font-mono text-[10px] font-medium text-white/60 opacity-100 select-none sm:flex dark:border-yellow-600/80 dark:bg-yellow-600/80 dark:text-white/80">
+                  <span className="text-xs">⌘</span>K
+                </kbd>
+              </Button>
+              <div className="flex h-3 items-center">
+                <Separator
+                  orientation="vertical"
+                  className="dark:bg-primary/50 bg-white"
+                />
 
-              <AnimatedThemeToggler className="flex w-full items-center gap-4 px-2 py-3 text-sm font-medium capitalize" />
+                <AnimatedThemeToggler className="flex w-full items-center gap-4 px-2 py-3 text-sm font-medium capitalize" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <CommandDialog
-          open={isCommandOpen}
-          onOpenChange={setIsCommandOpen}
-          showCloseButton
-        >
-          <CommandInput placeholder="Search" />
-          <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Sustainable Development Goals">
-              <CommandItem>
-                <Image
-                  src="/sdgs/1.png"
-                  alt="No Poverty Icon"
-                  width="20"
-                  height="20"
-                  className="h-auto w-auto object-cover"
-                />
-                No Poverty
-              </CommandItem>
-              <CommandItem>
-                <Image
-                  src="/sdgs/2.png"
-                  alt="Zero Hunger Icon"
-                  width="20"
-                  height="20"
-                  className="h-auto w-auto object-cover"
-                />
-                Zero Hunger
-              </CommandItem>
-              <CommandItem>
-                <Image
-                  src="/sdgs/3.png"
-                  alt="Good Health and Well-Being Icon"
-                  width="20"
-                  height="20"
-                  className="h-auto w-auto object-cover"
-                />
-                Good Health and Well-Being
-              </CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </CommandDialog>
+          <CommandDialog
+            open={isCommandOpen}
+            onOpenChange={setIsCommandOpen}
+            showCloseButton
+          >
+            <CommandInput placeholder="Search" />
+            <CommandList>
+              <CommandEmpty>No results found.</CommandEmpty>
+              <CommandGroup heading="Sustainable Development Goals">
+                <CommandItem>
+                  <Image
+                    src="/sdgs/1.png"
+                    alt="No Poverty Icon"
+                    width="20"
+                    height="20"
+                    className="h-auto w-auto object-cover"
+                  />
+                  No Poverty
+                </CommandItem>
+                <CommandItem>
+                  <Image
+                    src="/sdgs/2.png"
+                    alt="Zero Hunger Icon"
+                    width="20"
+                    height="20"
+                    className="h-auto w-auto object-cover"
+                  />
+                  Zero Hunger
+                </CommandItem>
+                <CommandItem>
+                  <Image
+                    src="/sdgs/3.png"
+                    alt="Good Health and Well-Being Icon"
+                    width="20"
+                    height="20"
+                    className="h-auto w-auto object-cover"
+                  />
+                  Good Health and Well-Being
+                </CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </CommandDialog>
+        </div>
       </header>
     );
   }

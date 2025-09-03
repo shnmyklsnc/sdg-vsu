@@ -33,8 +33,8 @@ export function YearSelectorArc(props: YearSelectorArcProps) {
   const {
     circleWidth = 4000,
     angleBetweenMinorSteps = 0.35,
-    lineCountFillBetweenSteps = 10,
-    boundaryPlaceholderLinesCount = 50,
+    lineCountFillBetweenSteps = 7,
+    boundaryPlaceholderLinesCount = 70,
   } = arcConfig;
 
   // Initialize rotation to center the selected year or middle year

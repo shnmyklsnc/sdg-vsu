@@ -27,7 +27,7 @@ export default function ArticleCard({ article }: { article: Article }) {
           </div>
         )}
 
-        <div className="flex flex-col gap-2 p-6">
+        <div className="flex h-[230px] flex-col justify-between p-6">
           <h3 className="text-primary dark:text-secondary xs:text-xl line-clamp-3 min-h-[5rem] text-base font-semibold underline-offset-4 group-hover:underline">
             {article.title}
           </h3>

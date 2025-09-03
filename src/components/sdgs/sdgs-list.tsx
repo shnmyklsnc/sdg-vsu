@@ -6,10 +6,10 @@ import Image from "next/image";
 
 export default function SDGList() {
   return (
-    <section className="mb-5 transition-all duration-300 lg:container">
+    <section className="mb-5 transition-all duration-300">
       <PageTitle title="Sustainable Development Goals" />
 
-      <ul className="xs:grid-cols-2 grid grid-cols-1 items-center gap-2 px-2 sm:grid-cols-3 lg:px-0">
+      <ul className="xs:grid-cols-2 grid grid-cols-1 items-center gap-2 px-2 sm:grid-cols-3 lg:container lg:px-0">
         {Array.from({ length: 17 }, (_, i) => i + 1).map(number => (
           <li key={number} className="w-full">
             <SDGCardWithSkeleton sdgId={number} />

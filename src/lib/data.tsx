@@ -2869,10 +2869,6 @@ export const progressAndInfo: SDGTimeline[] = [
             icon: <PenTool width={20} height={20} />,
             content: "BOR Resolution for stipends and scholarships",
           },
-          {
-            icon: <Stamp width={20} height={20} />,
-            content: "Approval of affirmative admission policy",
-          },
         ],
         fullContent:
           "The Visayas State University is a lorem ipsum dolor sit amet. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",

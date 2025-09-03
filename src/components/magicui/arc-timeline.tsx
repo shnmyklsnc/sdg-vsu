@@ -74,10 +74,10 @@ export function ArcTimeline(props: ArcTimelineProps) {
   } = props;
 
   const {
-    circleWidth = 5000,
+    circleWidth = 4000,
     angleBetweenMinorSteps = 0.35,
-    lineCountFillBetweenSteps = 10,
-    boundaryPlaceholderLinesCount = 50,
+    lineCountFillBetweenSteps = 7,
+    boundaryPlaceholderLinesCount = 70,
   } = arcConfig;
 
   const {
@@ -139,7 +139,7 @@ export function ArcTimeline(props: ArcTimelineProps) {
 
   return (
     <div className="relative">
-      <div className="absolute inset-0 z-1 h-full w-full overflow-hidden">
+      <div className="absolute top-0 z-1 h-20 w-full overflow-hidden lg:hidden">
         <Particles color={theme === "dark" ? "#fcd83d" : "#146939"} />
       </div>
       <div
@@ -149,16 +149,14 @@ export function ArcTimeline(props: ArcTimelineProps) {
           className
         )}
       >
-        <div className="absolute inset-0 top-50 aspect-square max-w-none transition-all duration-500 ease-in-out">
-          <Image
-            src="/logo/Wireframe Logo.png"
-            alt="Background wireframe"
-            width={400}
-            height={400}
-            priority
-            className="h-auto w-auto object-cover opacity-20 brightness-900 filter dark:opacity-5 dark:brightness-50"
-          />
-        </div>
+        <Image
+          src="/logo/Wireframe Logo.png"
+          alt="Background wireframe"
+          width={500}
+          height={500}
+          priority
+          className="absolute top-[50%] left-1/2 h-auto w-full -translate-x-1/2 opacity-20 brightness-900 filter sm:top-[10%] lg:top-[30%] lg:w-1/3 dark:opacity-5 dark:brightness-50"
+        />
         <div
           style={{
             transform: `translateX(-50%) rotate(${circleContainerRotateDeg}deg)`,
