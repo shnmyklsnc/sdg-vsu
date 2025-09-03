@@ -144,7 +144,7 @@ export function InstitutionalDocumentsSection({
   return (
     <section className="mb-16 lg:container">
       {/* Documents Section */}
-      <div className="px-4">
+      <div className="px-4 lg:px-0">
         <div className="mb-4 flex flex-col gap-2">
           <h3
             className="xs:text-3xl text-xl font-bold"

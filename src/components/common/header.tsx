@@ -366,7 +366,7 @@ export default function HeaderMobile() {
             }}
           />
 
-          <div className="flex h-18 items-center justify-between px-5">
+          <div className="flex h-18 items-center justify-between px-5 lg:px-0">
             {/* Logo - Left section */}
             <div className="flex items-center gap-8">
               <Link

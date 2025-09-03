@@ -8,7 +8,7 @@ import { AtSign, MapPin, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="dark:bg-primary bg-secondary overflow-hidden px-3 py-6 transition-all duration-300">
+    <footer className="dark:bg-primary bg-secondary overflow-hidden px-3 py-6 transition-all duration-300 lg:px-0">
       <div className="relative flex flex-col gap-4 lg:container">
         <div className="flex justify-between">
           <Link

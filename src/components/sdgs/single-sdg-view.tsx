@@ -63,72 +63,78 @@ export default function SingleSDGView({ id }: { id: number }) {
         className="relative mb-8 overflow-hidden lg:container"
         style={{ background: `${sdg.color}` }}
       >
-        <div className="relative flex flex-col justify-between gap-14 px-4 pt-4 pb-8">
-          <Image
-            src="/logo/Mt Pangasugan.png"
-            alt="Mount Pangasugan Wireframe Image"
-            fill
-            className="hidden h-auto w-auto object-contain opacity-10 dark:block"
-          />
-          <Image
-            src="/images/pangasugan.jpg"
-            alt="Mount Pangasugan Image"
-            fill
-            className="block h-auto w-auto object-cover opacity-10 dark:hidden"
-          />
-          <div className="flex items-center justify-between">
-            <Link
-              href="/sdgs"
-              className="z-1 font-medium text-white underline underline-offset-4"
-            >
-              Goals
-            </Link>
+        <div className="relative px-4 pt-4 pb-8">
+          <div className="pointer-events-none z-0">
             <Image
-              src={`/sdgs/logo/${sdg.id}.png`}
-              alt={`SDG ${sdg.id} Clean Logo`}
-              width={50}
-              height={50}
-              className="h-auto max-w-[42px] object-cover lg:hidden"
+              src="/logo/Mt Pangasugan.png"
+              alt="Mount Pangasugan Wireframe Image"
+              width={1000}
+              height={400}
+              className="absolute top-[50%] left-[50%] hidden -translate-x-1/2 opacity-10 dark:block"
+            />
+
+            <Image
+              src="/images/pangasugan.jpg"
+              alt="Mount Pangasugan Image"
+              fill
+              className="block object-cover opacity-10 dark:hidden"
             />
           </div>
-          <div className="flex flex-col gap-14">
-            <div>
-              <h2
-                className="text-4xl font-bold tracking-tight text-white lg:text-5xl"
-                id="sdg-description"
+          <div className="z-10 flex flex-col justify-between gap-14">
+            <div className="flex items-center justify-between">
+              <Link
+                href="/sdgs"
+                className="z-1 font-medium text-white underline underline-offset-4"
               >
-                {sdg.description}
-              </h2>
-              <div className="mt-4 ml-1 h-0.5 w-20 bg-white" />
+                Goals
+              </Link>
+              <Image
+                src={`/sdgs/logo/${sdg.id}.png`}
+                alt={`SDG ${sdg.id} Clean Logo`}
+                width={50}
+                height={50}
+                className="h-auto max-w-[42px] object-cover lg:hidden"
+              />
             </div>
-            <div
-              aria-label="SDG Navigation Controls"
-              role="navigation"
-              className="z-10 flex items-center gap-2"
-            >
-              <Button asChild className="group text-white" variant="ghost">
-                <Link
-                  href={`/sdgs/${prevSDG}`}
-                  className="flex items-center gap-2"
+            <div className="flex flex-col gap-14">
+              <div>
+                <h2
+                  className="text-4xl font-bold tracking-tight text-white lg:text-5xl"
+                  id="sdg-description"
                 >
-                  <span className="transform transition-transform duration-200 group-hover:-translate-x-1 group-active:-translate-x-3">
-                    <ArrowLeft />
-                  </span>
-                  <span>Previous</span>
-                </Link>
-              </Button>
+                  {sdg.description}
+                </h2>
+                <div className="mt-4 ml-1 h-0.5 w-20 bg-white" />
+              </div>
+              <div
+                aria-label="SDG Navigation Controls"
+                role="navigation"
+                className="z-10 flex items-center gap-2"
+              >
+                <Button asChild className="group text-white" variant="ghost">
+                  <Link
+                    href={`/sdgs/${prevSDG}`}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="transform transition-transform duration-200 group-hover:-translate-x-1 group-active:-translate-x-3">
+                      <ArrowLeft />
+                    </span>
+                    <span>Previous</span>
+                  </Link>
+                </Button>
 
-              <Button className="group text-white" variant="ghost" asChild>
-                <Link
-                  href={`/sdgs/${nextSDG}`}
-                  className="flex items-center gap-2"
-                >
-                  <span>Next</span>
-                  <span className="transform transition-transform duration-200 group-hover:translate-x-1 group-active:translate-x-3">
-                    <ArrowRight />
-                  </span>
-                </Link>
-              </Button>
+                <Button className="group text-white" variant="ghost" asChild>
+                  <Link
+                    href={`/sdgs/${nextSDG}`}
+                    className="flex items-center gap-2"
+                  >
+                    <span>Next</span>
+                    <span className="transform transition-transform duration-200 group-hover:translate-x-1 group-active:translate-x-3">
+                      <ArrowRight />
+                    </span>
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -141,7 +147,7 @@ export default function SingleSDGView({ id }: { id: number }) {
         />
       </section>
 
-      <section className="mb-4 px-4 lg:container">
+      <section className="mb-4 px-4 lg:container lg:px-0">
         <div className="mb-4 flex items-center gap-4">
           <div className="bg-primary dark:bg-secondary h-0.5 w-10" />
           <h3 className="xs:text-3xl text-2xl font-bold" id="related-articles">
@@ -172,7 +178,7 @@ export default function SingleSDGView({ id }: { id: number }) {
       </section>
       <Strip />
 
-      <section className="mb-16 px-4 lg:container">
+      <section className="mb-16 px-4 lg:container lg:px-0">
         <div className="mb-4 flex flex-col gap-2">
           <h3 className="xs:text-3xl text-2xl font-bold" id="overview">
             Overview
@@ -189,7 +195,9 @@ export default function SingleSDGView({ id }: { id: number }) {
         impactRankingsYears={impactRankingsYearData}
       />
 
-      <section className="mb-16 px-4 lg:container">
+      <Strip />
+
+      <section className="mb-16 px-4 lg:container lg:px-0">
         <div className="mb-4 flex flex-col gap-2">
           <h3 className="xs:text-3xl text-2xl font-bold" id="progress-and-info">
             Progress and Info
