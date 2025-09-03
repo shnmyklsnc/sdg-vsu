@@ -155,7 +155,7 @@ export function ArcTimeline(props: ArcTimelineProps) {
           width={500}
           height={500}
           priority
-          className="absolute top-[50%] left-1/2 h-auto w-full -translate-x-1/2 opacity-20 brightness-900 filter sm:top-[10%] lg:top-[30%] lg:w-1/3 dark:opacity-5 dark:brightness-50"
+          className="absolute top-[50%] left-1/2 h-auto w-full -translate-x-1/2 opacity-10 brightness-900 filter sm:top-[10%] lg:top-[30%] lg:w-1/3 dark:opacity-5 dark:brightness-50"
         />
         <div
           style={{

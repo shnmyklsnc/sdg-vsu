@@ -14,7 +14,7 @@ import Link from "next/link";
 import { Menu, Search } from "lucide-react";
 import { Button } from "../ui/button";
 import { AnimatedThemeToggler } from "../magicui/animated-theme-toggler";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   CommandDialog,
@@ -32,6 +32,7 @@ export default function HeaderMobile() {
   const isMobile = useIsMobile();
   const [isCommandOpen, setIsCommandOpen] = useState<boolean>(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const closeMenu = (): void => {
     setIsOpen(false);
@@ -44,7 +45,15 @@ export default function HeaderMobile() {
     () => (
       <>
         {sdgs.map(sdg => (
-          <CommandItem key={sdg.id}>
+          <CommandItem
+            role="link"
+            key={sdg.id}
+            onSelect={() => {
+              router.push(`/sdgs/${sdg.id}`);
+              setIsCommandOpen(false);
+            }}
+            className="cursor-pointer"
+          >
             <Image
               src={`/sdgs/${sdg.id}.png`}
               alt={`${sdg.title} Icon`}
@@ -57,7 +66,7 @@ export default function HeaderMobile() {
         ))}
       </>
     ),
-    []
+    [router]
   );
 
   useEffect(() => {

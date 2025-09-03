@@ -303,7 +303,7 @@ export default function SingleSDGView({ id }: { id: number }) {
         </Button>
 
         <button
-          className="w-full"
+          className="w-full cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <Image
