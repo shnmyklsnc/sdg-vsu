@@ -1,8 +1,8 @@
 "use client";
 
-import { navigationItems } from "@/lib/data";
+import { navigationItems, sdgs } from "@/lib/data";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -39,6 +39,26 @@ export default function HeaderMobile() {
 
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
+
+  const sdgsData = useMemo(
+    () => (
+      <>
+        {sdgs.map(sdg => (
+          <CommandItem key={sdg.id}>
+            <Image
+              src={`/sdgs/${sdg.id}.png`}
+              alt={`${sdg.title} Icon`}
+              width="20"
+              height="20"
+              className="h-auto w-auto object-cover"
+            />
+            SDG {sdg.id} - {sdg.title}
+          </CommandItem>
+        ))}
+      </>
+    ),
+    []
+  );
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -295,36 +315,7 @@ export default function HeaderMobile() {
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Sustainable Development Goals">
-              <CommandItem>
-                <Image
-                  src="/sdgs/1.png"
-                  alt="No Poverty Icon"
-                  width="20"
-                  height="20"
-                  className="h-auto w-auto object-cover"
-                />
-                No Poverty
-              </CommandItem>
-              <CommandItem>
-                <Image
-                  src="/sdgs/2.png"
-                  alt="Zero Hunger Icon"
-                  width="20"
-                  height="20"
-                  className="h-auto w-auto object-cover"
-                />
-                Zero Hunger
-              </CommandItem>
-              <CommandItem>
-                <Image
-                  src="/sdgs/3.png"
-                  alt="Good Health and Well-Being Icon"
-                  width="20"
-                  height="20"
-                  className="h-auto w-auto object-cover"
-                />
-                Good Health and Well-Being
-              </CommandItem>
+              {sdgsData}
             </CommandGroup>
           </CommandList>
         </CommandDialog>
@@ -473,36 +464,7 @@ export default function HeaderMobile() {
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup heading="Sustainable Development Goals">
-                <CommandItem>
-                  <Image
-                    src="/sdgs/1.png"
-                    alt="No Poverty Icon"
-                    width="20"
-                    height="20"
-                    className="h-auto w-auto object-cover"
-                  />
-                  No Poverty
-                </CommandItem>
-                <CommandItem>
-                  <Image
-                    src="/sdgs/2.png"
-                    alt="Zero Hunger Icon"
-                    width="20"
-                    height="20"
-                    className="h-auto w-auto object-cover"
-                  />
-                  Zero Hunger
-                </CommandItem>
-                <CommandItem>
-                  <Image
-                    src="/sdgs/3.png"
-                    alt="Good Health and Well-Being Icon"
-                    width="20"
-                    height="20"
-                    className="h-auto w-auto object-cover"
-                  />
-                  Good Health and Well-Being
-                </CommandItem>
+                {sdgsData}
               </CommandGroup>
             </CommandList>
           </CommandDialog>

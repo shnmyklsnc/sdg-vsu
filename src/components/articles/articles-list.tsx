@@ -93,13 +93,13 @@ export default function ArticlesList({ page = 1 }: { page?: number }) {
   }, [currentPage, totalPages, isMobile, isDesktop]);
 
   return (
-    <section className="mb-5">
+    <section>
       <PageTitle title="Articles" />
 
-      <section className="mb-4 px-4">
+      <section className="lg mb-4 px-4 lg:container">
         {paginatedArticles.length > 0 ? (
           <>
-            <ol className="mb-8 flex flex-col gap-4">
+            <ol className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {paginatedArticles.map(article => (
                 <li key={article.href}>
                   <ArticleCard article={article} />
