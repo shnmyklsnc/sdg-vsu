@@ -78,7 +78,13 @@ export const LinkPreview = ({
     <>
       {isMounted ? (
         <div className="hidden">
-          <Image src={src} width={width} height={height} alt="hidden image" />
+          <Image
+            src={src}
+            width={width}
+            height={height}
+            alt="hidden image"
+            className="h-auto w-auto object-cover"
+          />
         </div>
       ) : null}
 
@@ -132,7 +138,7 @@ export const LinkPreview = ({
                     src={isStatic ? imageSrc : src}
                     width={width}
                     height={height}
-                    className="rounded-lg"
+                    className="h-auto w-auto rounded-lg object-cover"
                     alt="preview image"
                   />
                 </Link>

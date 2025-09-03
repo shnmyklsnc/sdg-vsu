@@ -209,14 +209,14 @@ export function InstitutionalDocumentsSection({
                         alt={`SDG ${sdg.id} Logo`}
                         width={64}
                         height={64}
-                        className="hidden dark:block"
+                        className="hidden h-auto w-auto object-cover dark:block"
                       />
                       <Image
                         src={`/sdgs/inverted/${sdg.id}.png`}
                         alt={`SDG ${sdg.id} Logo`}
                         width={64}
                         height={64}
-                        className="block dark:hidden"
+                        className="block h-auto w-auto object-cover dark:hidden"
                       />
 
                       <div className="flex min-w-0 flex-1 flex-col gap-1">

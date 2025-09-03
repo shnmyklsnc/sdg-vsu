@@ -8,7 +8,7 @@ import { AtSign, MapPin, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="dark:bg-primary bg-secondary relative flex flex-col gap-4 overflow-hidden px-3 py-6">
+    <footer className="dark:bg-primary bg-secondary relative flex flex-col gap-4 overflow-hidden px-3 py-6 transition-all duration-300 lg:container">
       <div className="flex justify-between">
         <Link
           key="light"
@@ -21,6 +21,7 @@ export default function Footer() {
             width={40}
             height={40}
             priority
+            className="h-auto w-auto object-cover"
           />
           <Image
             src="/logo/VSU Text Logo.png"
@@ -28,6 +29,7 @@ export default function Footer() {
             width={110}
             height={110}
             priority
+            className="h-auto w-auto object-cover"
           />
         </Link>
         <Link
@@ -41,6 +43,7 @@ export default function Footer() {
             width={40}
             height={40}
             priority
+            className="h-auto w-auto object-cover"
           />
           <Image
             src="/logo/VSU Text Logo (White).png"
@@ -48,6 +51,7 @@ export default function Footer() {
             width={110}
             height={110}
             priority
+            className="h-auto w-auto object-cover"
           />
         </Link>
       </div>

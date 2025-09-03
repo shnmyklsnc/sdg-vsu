@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(0.8883 0.0042 91.45);
   --foreground: oklch(0.2621 0.0095 248.19);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.1408 0.0044 285.8229);
@@ -260,6 +260,10 @@ select {
   .galada {
     font-family: "Galada", sans-serif;
   }
+}
+
+@utility container {
+  @apply mx-auto;
 }
 
 ::view-transition-old(root),

@@ -62,7 +62,7 @@ export default function SingleSDGView({ id }: { id: number }) {
             width={800}
             height={400}
             priority
-            className="opacity-10 brightness-900 filter dark:opacity-5 dark:brightness-50"
+            className="h-auto w-auto object-cover opacity-10 brightness-900 filter dark:opacity-5 dark:brightness-50"
           />
           <div className="to-secondary dark:to-primary absolute inset-0 bg-gradient-to-b from-transparent from-10% via-transparent via-40% to-70%" />
         </div>
@@ -85,14 +85,14 @@ export default function SingleSDGView({ id }: { id: number }) {
           alt="Mount Pangasugan Wireframe Image"
           width={1000}
           height={1000}
-          className="absolute inset-0 top-35 hidden opacity-20 dark:block"
+          className="absolute inset-0 top-35 hidden h-auto w-auto object-cover opacity-20 dark:block"
         />
         <Image
           src="/images/pangasugan.jpg"
           alt="Mount Pangasugan Image"
           width={1000}
           height={1000}
-          className="absolute inset-0 block opacity-10 dark:hidden"
+          className="absolute inset-0 block h-auto w-auto object-cover opacity-10 dark:hidden"
         />
         <div className="flex items-center justify-between">
           <Link
@@ -106,7 +106,7 @@ export default function SingleSDGView({ id }: { id: number }) {
             alt={`SDG ${sdg.id} Clean Logo`}
             width={50}
             height={50}
-            className="max-w-[42px]"
+            className="h-auto max-w-[42px] object-cover"
           />
         </div>
         <div className="flex flex-col gap-14">
@@ -253,7 +253,7 @@ export default function SingleSDGView({ id }: { id: number }) {
             alt={`SDG ${sdg.id} Logo Long`}
             width={300}
             height={300}
-            className="w-full px-4"
+            className="h-auto w-full object-cover px-4"
           />
         </Link>
 

@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
         pathname: "**",
       },
     ],
+    qualities: [90],
   },
 };
 export default nextConfig;

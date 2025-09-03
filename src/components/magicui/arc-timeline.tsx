@@ -156,7 +156,7 @@ export function ArcTimeline(props: ArcTimelineProps) {
             width={400}
             height={400}
             priority
-            className="opacity-20 brightness-900 filter dark:opacity-5 dark:brightness-50"
+            className="h-auto w-auto object-cover opacity-20 brightness-900 filter dark:opacity-5 dark:brightness-50"
           />
         </div>
         <div

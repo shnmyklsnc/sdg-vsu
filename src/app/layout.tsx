@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Montserrat, Roboto, Galada } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import HeaderMobile from "@/components/common/header-mobile";
+import HeaderMobile from "@/components/common/header";
 import Footer from "@/components/common/footer";
 
 // VSU Brand Fonts based on brand guidelines
@@ -71,7 +71,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <HeaderMobile />
-          <main>{children}</main>
+          <main className="lg:mb-8">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

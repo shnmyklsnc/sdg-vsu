@@ -13,7 +13,7 @@ export default function SDGList() {
             width={800}
             height={400}
             priority
-            className="opacity-10 brightness-900 filter dark:opacity-5 dark:brightness-50"
+            className="h-auto w-auto object-cover opacity-10 brightness-900 filter dark:opacity-5 dark:brightness-50"
           />
           <div className="to-secondary dark:to-primary absolute inset-0 bg-gradient-to-b from-transparent from-10% via-transparent via-40% to-70%" />
         </div>
