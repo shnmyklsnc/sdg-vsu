@@ -1,13 +1,13 @@
 "use client";
 
 import { articlesData } from "@/lib/data";
-import Image from "next/image";
 import ArticleCard from "../sdgs/article-card";
 import { sortArticlesByDate } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import PageTitle from "../common/page-title";
 
 const ARTICLES_PER_PAGE = 9;
 
@@ -94,23 +94,7 @@ export default function ArticlesList({ page = 1 }: { page?: number }) {
 
   return (
     <section className="mb-5">
-      <section className="bg-secondary dark:bg-primary relative overflow-hidden pt-54 pb-38">
-        <div className="absolute top-15 left-1/2 aspect-square w-[160%] max-w-none -translate-x-1/2">
-          <Image
-            src="/logo/Wireframe Logo.png"
-            alt="Background wireframe"
-            width={800}
-            height={400}
-            priority
-            className="h-auto w-auto object-cover opacity-10 brightness-900 filter dark:opacity-5 dark:brightness-50"
-          />
-          <div className="to-secondary dark:to-primary absolute inset-0 bg-gradient-to-b from-transparent from-10% via-transparent via-40% to-70%" />
-        </div>
-        <h1 className="dark:text-secondary text-center text-5xl font-bold text-white">
-          Articles
-        </h1>
-      </section>
-      <div className="bg-primary dark:bg-secondary mb-5 h-5 w-full" />
+      <PageTitle title="Articles" />
 
       <section className="mb-4 px-4">
         {paginatedArticles.length > 0 ? (
