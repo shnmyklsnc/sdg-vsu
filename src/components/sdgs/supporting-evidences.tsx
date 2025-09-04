@@ -26,6 +26,7 @@ export function SupportingEvidencesSection({
 }) {
   const searchParams = useSearchParams();
   const metricRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const indicatorRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const yearData = useMemo(() => {
     return impactRankingsYears
@@ -74,6 +75,21 @@ export function SupportingEvidencesSection({
       : undefined;
   });
 
+  // Update URL params helper
+  const updateUrlParams = (updates: Record<string, string | null>) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null) {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
+
+    window.history.pushState({}, "", `/sdgs/${sdg.id}?${params.toString()}`);
+  };
+
   // Update URL when year changes
   const handleYearChange = (year: number) => {
     const yearInfo = yearData.find(y => y.year === year);
@@ -84,15 +100,7 @@ export function SupportingEvidencesSection({
       impactRankingsYearId: yearInfo.impactRankingsYearId,
     });
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("year", year.toString());
-
-    // Use window.history.pushState to avoid full navigation
-    window.history.pushState(
-      {},
-      "",
-      `/sdgs/${sdg.id}?${params.toString()}${window.location.hash}`
-    );
+    updateUrlParams({ year: year.toString() });
   };
 
   const filteredMetrics = useMemo(() => {
@@ -122,25 +130,58 @@ export function SupportingEvidencesSection({
   // Check if there are any impact rankings years
   const hasYearData = yearData.length > 0;
 
-  // Handle scrolling to fragment on mount and when params change
+  // Handle scrolling based on search params
   useEffect(() => {
-    const hash = window.location.hash.slice(1);
-
-    if (!hash) return;
+    const metricParam = searchParams.get("metric");
+    const indicatorParam = searchParams.get("indicator");
 
     const scrollTimeout = setTimeout(() => {
-      const metricRef = metricRefs.current[hash];
-      if (metricRef) {
-        metricRef.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
+      if (indicatorParam && metricParam) {
+        // Scroll to indicator if both metric and indicator are specified
+        const indicatorKey = `${metricParam}-${indicatorParam}`;
+        const indicatorRef = indicatorRefs.current[indicatorKey];
+        if (indicatorRef) {
+          indicatorRef.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+          });
+          // Open the accordion for this metric
+          const accordionTrigger = document.querySelector(
+            `[data-metric-accordion="${metricParam}"]`
+          ) as HTMLElement;
+          if (
+            accordionTrigger &&
+            accordionTrigger.getAttribute("data-state") === "closed"
+          ) {
+            accordionTrigger.click();
+          }
+        }
+      } else if (metricParam) {
+        // Scroll to metric if only metric is specified
+        const metricRef = metricRefs.current[metricParam];
+        if (metricRef) {
+          metricRef.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+          });
+        }
       }
     }, 100);
 
     return () => clearTimeout(scrollTimeout);
-  }, [filteredMetrics, metrics]);
+  }, [searchParams, filteredMetrics]);
+
+  // Handle metric click
+  const handleMetricClick = (metricId: string) => {
+    updateUrlParams({ metric: metricId, indicator: null });
+  };
+
+  // Handle indicator click
+  const handleIndicatorClick = (metricId: string, indicatorId: string) => {
+    updateUrlParams({ metric: metricId, indicator: indicatorId });
+  };
 
   return (
     <section className="mb-16 lg:container">
@@ -246,7 +287,10 @@ export function SupportingEvidencesSection({
                           <div className="text-muted-foreground text-sm">
                             Metric
                           </div>
-                          <h4 className="text-2xl font-bold tracking-wider">
+                          <h4
+                            className="hover:text-primary cursor-pointer text-2xl font-bold tracking-wider transition-colors"
+                            onClick={() => handleMetricClick(metric.id)}
+                          >
                             {metric.id}
                           </h4>
                           <p className="mt-1 text-justify text-sm whitespace-normal">
@@ -275,12 +319,25 @@ export function SupportingEvidencesSection({
 
                     {/* Indicator Submissions Accordion */}
                     {!metricIsBiblioMetric && hasIndicatorDocs && (
-                      <Accordion type="single" collapsible className="w-full">
+                      <Accordion
+                        type="single"
+                        collapsible
+                        className="w-full"
+                        defaultValue={
+                          searchParams.get("metric") === metric.id &&
+                          searchParams.get("indicator")
+                            ? `indicators-${metric.id}`
+                            : undefined
+                        }
+                      >
                         <AccordionItem
                           value={`indicators-${metric.id}`}
                           className="border-t border-b-0"
                         >
-                          <AccordionTrigger className="cursor-pointer px-4 py-4">
+                          <AccordionTrigger
+                            className="cursor-pointer px-4 py-4"
+                            data-metric-accordion={metric.id}
+                          >
                             <span className="text-muted-foreground text-sm font-medium">
                               Evidences
                             </span>
@@ -300,8 +357,22 @@ export function SupportingEvidencesSection({
                                   ]) => (
                                     <div
                                       key={`${indicatorId}-${selectedYearData.year}`}
+                                      ref={el => {
+                                        indicatorRefs.current[
+                                          `${metric.id}-${indicatorId}`
+                                        ] = el;
+                                      }}
+                                      className="scroll-mt-4"
                                     >
-                                      <h5 className="scroll-mt-4 text-base font-semibold tracking-wide">
+                                      <h5
+                                        className="hover:text-primary cursor-pointer text-base font-semibold tracking-wide transition-colors"
+                                        onClick={() =>
+                                          handleIndicatorClick(
+                                            metric.id,
+                                            indicatorId
+                                          )
+                                        }
+                                      >
                                         {indicatorId}
                                       </h5>
                                       <p className="text-muted-foreground mb-2 text-sm">
