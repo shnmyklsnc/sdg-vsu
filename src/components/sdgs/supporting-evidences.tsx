@@ -1,9 +1,9 @@
-import { Document, ImpactRankingsYear, Metric, SDG } from "@/lib/types";
-import { groupDocumentsByMetric } from "@/lib/utils";
+import { Submission, ImpactRankingsYear, Metric, SDG } from "@/lib/types";
+import { groupSubmissionsByMetric } from "@/lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { YearSelectorArc } from "../magicui/timeline-selector";
 import Image from "next/image";
-import DocumentItem from "./document-item";
+import SubmissionItem from "./submission-item";
 import {
   Accordion,
   AccordionContent,
@@ -13,13 +13,13 @@ import {
 import { useSearchParams } from "next/navigation";
 import { InfoIcon } from "lucide-react";
 
-export function InstitutionalDocumentsSection({
-  documents,
+export function SupportingEvidencesSection({
+  submissions,
   metrics,
   sdg,
   impactRankingsYears,
 }: {
-  documents: Document[];
+  submissions: Submission[];
   metrics: Metric[];
   sdg: SDG;
   impactRankingsYears: ImpactRankingsYear[];
@@ -30,9 +30,9 @@ export function InstitutionalDocumentsSection({
   const yearData = useMemo(() => {
     return impactRankingsYears
       .map(iry => {
-        // Count documents for this impact rankings year
-        const count = documents.filter(
-          doc => doc.impactRankingsYear === iry.id
+        // Count submissions for this impact rankings year
+        const count = submissions.filter(
+          submission => submission.impactRankingsYear === iry.id
         ).length;
 
         return {
@@ -42,7 +42,7 @@ export function InstitutionalDocumentsSection({
         };
       })
       .sort((a, b) => a.year - b.year);
-  }, [impactRankingsYears, documents]);
+  }, [impactRankingsYears, submissions]);
 
   // Get year from URL params, fallback to middle year
   const yearParam = searchParams.get("year");
@@ -104,19 +104,20 @@ export function InstitutionalDocumentsSection({
     );
   }, [metrics, selectedYearData]);
 
-  // Filter documents by selected impact rankings year
-  const filteredDocuments = useMemo(() => {
+  // Filter submissions by selected impact rankings year
+  const filteredSubmissions = useMemo(() => {
     if (!selectedYearData) return [];
 
-    return documents.filter(
-      doc => doc.impactRankingsYear === selectedYearData.impactRankingsYearId
+    return submissions.filter(
+      submission =>
+        submission.impactRankingsYear === selectedYearData.impactRankingsYearId
     );
-  }, [documents, selectedYearData]);
+  }, [submissions, selectedYearData]);
 
-  // Group filtered documents by metric
-  const metricDocuments = useMemo(() => {
-    return groupDocumentsByMetric(filteredDocuments, metrics, sdg.id);
-  }, [filteredDocuments, metrics, sdg.id]);
+  // Group filtered submissions by metric
+  const metricSubmissions = useMemo(() => {
+    return groupSubmissionsByMetric(filteredSubmissions, metrics, sdg.id);
+  }, [filteredSubmissions, metrics, sdg.id]);
 
   // Check if there are any impact rankings years
   const hasYearData = yearData.length > 0;
@@ -143,14 +144,14 @@ export function InstitutionalDocumentsSection({
 
   return (
     <section className="mb-16 lg:container">
-      {/* Documents Section */}
+      {/* Submissions Section */}
       <div className="px-4 lg:px-0">
         <div className="mb-4 flex flex-col gap-2">
           <h3
             className="xs:text-3xl text-xl font-bold"
-            id="institutional-documents"
+            id="institutional-submissions"
           >
-            Institutional Documents
+            Supporting Evidences
           </h3>
           <div className="bg-primary dark:bg-secondary h-0.5 w-10" />
         </div>
@@ -178,7 +179,7 @@ export function InstitutionalDocumentsSection({
             className="animate-in fade-in-50 space-y-2 duration-500"
             key={selectedYearData.year}
           >
-            {metricDocuments.filter(
+            {metricSubmissions.filter(
               ({ metric }) =>
                 metric.impactRankingsYear ===
                 selectedYearData.impactRankingsYearId
@@ -197,11 +198,11 @@ export function InstitutionalDocumentsSection({
                 </p>
               </div>
             ) : (
-              metricDocuments.map(({ metric, documents }) => {
-                const documentsLength = Object.keys(
-                  documents.byIndicator
+              metricSubmissions.map(({ metric, submissions }) => {
+                const submissionsLength = Object.keys(
+                  submissions.byIndicator
                 ).length;
-                const hasIndicatorDocs = documentsLength > 0;
+                const hasIndicatorDocs = submissionsLength > 0;
 
                 const metricIsBiblioMetric = metric.indicators.every(
                   indicator => indicator.dataSource === "bibliometric"
@@ -254,22 +255,25 @@ export function InstitutionalDocumentsSection({
                         </div>
                       </div>
 
-                      {/* Direct Metric Documents */}
-                      {documents.direct.length > 0 && (
-                        <div aria-label="Main documents" className="mt-4">
+                      {/* Direct Metric Submissions */}
+                      {submissions.direct.length > 0 && (
+                        <div aria-label="Main submissions" className="mt-4">
                           <span className="text-muted-foreground text-sm font-medium">
                             {metric.id}
                           </span>
                           <div className="mt-1 space-y-2">
-                            {documents.direct.map(doc => (
-                              <DocumentItem key={doc.id} doc={doc} />
+                            {submissions.direct.map(submission => (
+                              <SubmissionItem
+                                key={submission.id}
+                                submission={submission}
+                              />
                             ))}
                           </div>
                         </div>
                       )}
                     </div>
 
-                    {/* Indicator Documents Accordion */}
+                    {/* Indicator Submissions Accordion */}
                     {!metricIsBiblioMetric && hasIndicatorDocs && (
                       <Accordion type="single" collapsible className="w-full">
                         <AccordionItem
@@ -278,12 +282,12 @@ export function InstitutionalDocumentsSection({
                         >
                           <AccordionTrigger className="cursor-pointer px-4 py-4">
                             <span className="text-muted-foreground text-sm font-medium">
-                              Documents
+                              Evidences
                             </span>
                           </AccordionTrigger>
                           <AccordionContent className="bg-muted border-t px-4 py-3">
                             <div className="space-y-4">
-                              {Object.entries(documents.byIndicator)
+                              {Object.entries(submissions.byIndicator)
                                 .sort(([a], [b]) =>
                                   a.localeCompare(b, undefined, {
                                     numeric: true,
@@ -292,7 +296,7 @@ export function InstitutionalDocumentsSection({
                                 .map(
                                   ([
                                     indicatorId,
-                                    { indicator, documents: docs },
+                                    { indicator, submissions: submissions },
                                   ]) => (
                                     <div
                                       key={`${indicatorId}-${selectedYearData.year}`}
@@ -304,10 +308,10 @@ export function InstitutionalDocumentsSection({
                                         {indicator.name}
                                       </p>
                                       <div className="space-y-2">
-                                        {docs.map(doc => (
-                                          <DocumentItem
-                                            key={doc.id}
-                                            doc={doc}
+                                        {submissions.map(submission => (
+                                          <SubmissionItem
+                                            key={submission.id}
+                                            submission={submission}
                                           />
                                         ))}
                                       </div>

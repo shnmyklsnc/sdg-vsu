@@ -1,7 +1,7 @@
 import { Globe, Home, Newspaper, PenTool, Stamp } from "lucide-react";
 import {
   Article,
-  Document,
+  Submission,
   ImpactRankingsYear,
   NavItem,
   SDG,
@@ -2275,10 +2275,11 @@ export const articlesData: Article[] = [
   },
 ];
 
-export const documentsData: Document[] = [
+export const submissionsData: Submission[] = [
   {
     id: 1,
     name: "Proportion of Students Receiving Financial Assistance",
+    filename: "proportion-of-students-receiving-financial-assistance",
     relatedSdgs: [1],
     metric: "1.2",
     date: new Date(2023, 10, 12),
@@ -2287,6 +2288,7 @@ export const documentsData: Document[] = [
   {
     id: 2,
     name: "BOR Resolution 2019 VSU-Funded Scholarship",
+    filename: "bor-resolution-2019-vsu-funded-scholarship",
     relatedSdgs: [1],
     metric: "1.2",
     indicator: "1.2.1",
@@ -2296,6 +2298,7 @@ export const documentsData: Document[] = [
   {
     id: 3,
     name: "BOR Resolution Stipend Increase for VSU-Funded Scholarship",
+    filename: "bor-resolution-stipend-increase-for-vsu-funded-scholarship",
     relatedSdgs: [1],
     metric: "1.2",
     indicator: "1.2.1",
@@ -2305,6 +2308,7 @@ export const documentsData: Document[] = [
   {
     id: 4,
     name: "BOR Resolution Stipend Increase for VSU-Funded Scholarship",
+    filename: "bor-resolution-stipend-increase-for-vsu-funded-scholarship",
     relatedSdgs: [1],
     metric: "1.2",
     indicator: "1.2.1",
@@ -2314,6 +2318,7 @@ export const documentsData: Document[] = [
   {
     id: 5,
     name: "Bottom Financial Quantile Admission",
+    filename: "bottom-financial-quantile-admission",
     relatedSdgs: [1],
     metric: "1.3",
     indicator: "1.3.1",
@@ -2323,6 +2328,7 @@ export const documentsData: Document[] = [
   {
     id: 6,
     name: "Low-Income Student Support",
+    filename: "low-income-student-support",
     relatedSdgs: [1],
     metric: "1.3",
     indicator: "1.3.3",
@@ -2332,6 +2338,8 @@ export const documentsData: Document[] = [
   {
     id: 7,
     name: "Affirmative Admission Policy for Children of Underpriviledged Families",
+    filename:
+      "affirmative-admission-policy-for-children-of-underpriviledged-families",
     relatedSdgs: [1],
     metric: "1.3",
     indicator: "1.3.4",
@@ -2341,6 +2349,7 @@ export const documentsData: Document[] = [
   {
     id: 8,
     name: "Local Start-up Assistance",
+    filename: "local-start-up-assistance",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.1",
@@ -2350,6 +2359,7 @@ export const documentsData: Document[] = [
   {
     id: 9,
     name: "Programmes for Services Access",
+    filename: "programmes-for-services-access",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.3",
@@ -2359,6 +2369,7 @@ export const documentsData: Document[] = [
   {
     id: 10,
     name: "BOSH Training for MSEs in Isabel Leyte",
+    filename: "bosh-training-for-mses-in-isabel-leyte",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2368,6 +2379,8 @@ export const documentsData: Document[] = [
   {
     id: 11,
     name: "Community for Resilience Training of Trainers on Climate Change Adaptation, Mitigation and DRR - GAA Climate Change Expenditure Fund",
+    filename:
+      "community-for-resilience-training-of-trainers-on-climate-change-adaptation-mitigation-and-drr-gaa-climate-change-expenditure-fund",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2377,6 +2390,7 @@ export const documentsData: Document[] = [
   {
     id: 12,
     name: "DSS Soil Health Services Program (DSoHESeP)",
+    filename: "dss-soil-health-services-program-(dsohesep)",
     relatedSdgs: [1, 2],
     metric: ["1.4", "2.5"],
     indicator: ["1.4.2", "2.5.1"],
@@ -2386,6 +2400,7 @@ export const documentsData: Document[] = [
   {
     id: 13,
     name: "Green-the-Home Project",
+    filename: "green-the-home-project",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2395,6 +2410,7 @@ export const documentsData: Document[] = [
   {
     id: 14,
     name: "Horticulture for Environment and Livelihood Promotion",
+    filename: "horticulture-for-environment-and-livelihood-promotion",
     relatedSdgs: [1, 2],
     metric: ["1.4", "2.5"],
     indicator: ["1.4.2", "2.5.1"],
@@ -2404,6 +2420,7 @@ export const documentsData: Document[] = [
   {
     id: 15,
     name: "Integrated Abaca Extension Program",
+    filename: "integrated-abaca-extension-program",
     relatedSdgs: [1, 2],
     metric: ["1.4", "2.5"],
     indicator: ["1.4.2", "2.5.1"],
@@ -2413,6 +2430,7 @@ export const documentsData: Document[] = [
   {
     id: 16,
     name: "Participatory Eco-Farming Program for the Visayas",
+    filename: "participatory-eco-farming-program-for-the-visayas",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2422,6 +2440,7 @@ export const documentsData: Document[] = [
   {
     id: 17,
     name: "Pest Clinic",
+    filename: "pest-clinic",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2431,6 +2450,8 @@ export const documentsData: Document[] = [
   {
     id: 18,
     name: "Strengthening Rural-Based Organizations: Focus on Baybay Dairy Cooperative (BDC)",
+    filename:
+      "strengthening-rural-based-organizations-focus-on-baybay-dairy-cooperative-(bdc)",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2440,6 +2461,8 @@ export const documentsData: Document[] = [
   {
     id: 19,
     name: "Tilapia Production and Utilization in Selected Municipalities of Leyte",
+    filename:
+      "tilapia-production-and-utilization-in-selected-municipalities-of-leyte",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2449,6 +2472,8 @@ export const documentsData: Document[] = [
   {
     id: 20,
     name: "Enhancing Capacity in Socio-Economic Research through the Visayas Socio-Economic Research and Data Analytics Center (ViSERDAC)",
+    filename:
+      "enhancing-capacity-in-socio-economic-research-through-the-visayas-socio-economic-research-and-data-analytics-center-(viserdac)",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2458,6 +2483,7 @@ export const documentsData: Document[] = [
   {
     id: 21,
     name: "(WEaLTH) Wellness Enterprise and Lifestyle Taming Hype",
+    filename: "(wealth)-wellness-enterprise-and-lifestyle-taming-hype",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2467,6 +2493,7 @@ export const documentsData: Document[] = [
   {
     id: 22,
     name: "MOA - Action for Economic Reforms (AER)",
+    filename: "moa-action-for-economic-reforms-(aer)",
     relatedSdgs: [1, 2],
     metric: ["1.4", "2.5"],
     indicator: ["1.4.2", "2.5.1"],
@@ -2476,6 +2503,7 @@ export const documentsData: Document[] = [
   {
     id: 23,
     name: "MOA - Brgy. Bunga",
+    filename: "moa-brgy-bunga",
     relatedSdgs: [1, 2],
     metric: ["1.4", "2.5"],
     indicator: ["1.4.2", "2.5.1"],
@@ -2485,6 +2513,7 @@ export const documentsData: Document[] = [
   {
     id: 24,
     name: "MOA - Brgy. Guadalupe",
+    filename: "moa-brgy-guadalupe",
     relatedSdgs: [1, 2],
     metric: ["1.4", "2.5"],
     indicator: ["1.4.2", "2.5.1"],
@@ -2494,6 +2523,7 @@ export const documentsData: Document[] = [
   {
     id: 25,
     name: "MOA - Brgy. Marcos",
+    filename: "moa-brgy-marcos",
     relatedSdgs: [1, 2],
     metric: ["1.4", "2.5"],
     indicator: ["1.4.2", "2.5.1"],
@@ -2503,6 +2533,7 @@ export const documentsData: Document[] = [
   {
     id: 26,
     name: "MOA - Brgy. Pangasugan",
+    filename: "moa-brgy-pangasugan",
     relatedSdgs: [1, 2],
     metric: ["1.4", "2.5"],
     indicator: ["1.4.2", "2.5.1"],
@@ -2512,6 +2543,7 @@ export const documentsData: Document[] = [
   {
     id: 27,
     name: "MOA - Brgy. Patag",
+    filename: "moa-brgy-patag",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2521,6 +2553,8 @@ export const documentsData: Document[] = [
   {
     id: 28,
     name: "MOA - Department of Agriculture Regional Field Unit 8 x Organic Agriculture Demo and Training Farm",
+    filename:
+      "moa-department-of-agriculture-regional-field-unit-8-x-organic-agriculture-demo-and-training-farm",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2530,6 +2564,7 @@ export const documentsData: Document[] = [
   {
     id: 29,
     name: "MOA - Institute for Climate and Sustainable Cities (ICSC)",
+    filename: "moa-institute-for-climate-and-sustainable-cities-(icsc)",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2539,6 +2574,7 @@ export const documentsData: Document[] = [
   {
     id: 30,
     name: "MOA - Kennemer Food International",
+    filename: "moa-kennemer-food-international",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2548,6 +2584,7 @@ export const documentsData: Document[] = [
   {
     id: 31,
     name: "MOA - Rootcrops Tech Asst. x LGU Baybay",
+    filename: "moa-rootcrops-tech-asst-x-lgu-baybay",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2557,6 +2594,7 @@ export const documentsData: Document[] = [
   {
     id: 32,
     name: "MOA - Baybay Food Processor Association",
+    filename: "moa-baybay-food-processor-association",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2566,6 +2604,7 @@ export const documentsData: Document[] = [
   {
     id: 33,
     name: "MOA - LGU Ormoc Scholarship",
+    filename: "moa-lgu-ormoc-scholarship",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.2",
@@ -2575,6 +2614,7 @@ export const documentsData: Document[] = [
   {
     id: 34,
     name: "Globally Competitive S&T",
+    filename: "globally-competitive-s-and-t",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.3",
@@ -2584,6 +2624,7 @@ export const documentsData: Document[] = [
   {
     id: 35,
     name: "Empowered Communities",
+    filename: "empowered-communities",
     relatedSdgs: [1],
     metric: "1.4",
     indicator: "1.4.3",
@@ -2593,6 +2634,7 @@ export const documentsData: Document[] = [
   {
     id: 36,
     name: "List of Projects 2022-2023",
+    filename: "list-of-projects-2022-2023",
     relatedSdgs: [2],
     metric: "2.1",
     date: new Date(2023, 10, 10),
@@ -2601,6 +2643,7 @@ export const documentsData: Document[] = [
   {
     id: 37,
     name: "Research on Hunger",
+    filename: "research-on-hunger",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2610,6 +2653,8 @@ export const documentsData: Document[] = [
   {
     id: 38,
     name: "Development of a Water Kefir Beverage Made From Jackfruit Processing By-product and Its Potential Probiotic Property",
+    filename:
+      "development-of-a-water-kefir-beverage-made-from-jackfruit-processing-by-product-and-its-potential-probiotic-property",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2619,6 +2664,8 @@ export const documentsData: Document[] = [
   {
     id: 39,
     name: "Social Impacts of a Coconet Enterprise on Smallholder Coconut Farming Families: The Case of Panaon Island Farmers Federation Inc in the Philippines",
+    filename:
+      "social-impacts-of-a-coconet-enterprise-on-smallholder-coconut-farming-families-the-case-of-panaon-island-farmers-federation-inc-in-the-philippines",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2628,6 +2675,8 @@ export const documentsData: Document[] = [
   {
     id: 40,
     name: "Profitability Assessment on the Adoption of Good Agricultural Practices (Gap) among Cabbage Farmers in Dalaguete, Cebu",
+    filename:
+      "profitability-assessment-on-the-adoption-of-good-agricultural-practices-(gap)-among-cabbage-farmers-in-dalaguete-cebu",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2636,7 +2685,9 @@ export const documentsData: Document[] = [
   },
   {
     id: 41,
-    name: "Soil Greenhouse Gas Fluxes from Tropical Vegetable Farms, using Forest as a Reference",
+    name: "Soil Greenhouse Gas Fluxes from Tropical Vegetable Farms using Forest as a Reference",
+    filename:
+      "soil-greenhouse-gas-fluxes-from-tropical-vegetable-farms-using-forest-as-a-reference",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2646,6 +2697,8 @@ export const documentsData: Document[] = [
   {
     id: 42,
     name: "Growth, Yield and Microbial Contamination of Lettuce (Lactuca Sativa L.) Grown Under Two Types of Cultivation System as Influenced by Different Organic Fertilizers",
+    filename:
+      "growth-yield-and-microbial-contamination-of-lettuce-(lactuca-sativa-l)-grown-under-two-types-of-cultivation-system-as-influenced-by-different-organic-fertilizers",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2655,6 +2708,8 @@ export const documentsData: Document[] = [
   {
     id: 43,
     name: "Growth and Yield Response of Lowland Rice (Oryza Sativa L.) to Planting Density and Nutrient Management",
+    filename:
+      "growth-and-yield-response-of-lowland-rice-(oryza-sativa-l)-to-planting-density-and-nutrient-management",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2664,6 +2719,8 @@ export const documentsData: Document[] = [
   {
     id: 44,
     name: "Enhanced Profitability of Selected Vegetable and Fruit Value Chains in the Southern Philippines and Australia",
+    filename:
+      "enhanced-profitability-of-selected-vegetable-and-fruit-value-chains-in-the-southern-philippines-and-australia",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2673,6 +2730,8 @@ export const documentsData: Document[] = [
   {
     id: 45,
     name: "Field Performance and Profitability of Bingawan Black Rice (Oryza Sativa L.) Grown Under Various Production Systems",
+    filename:
+      "field-performance-and-profitability-of-bingawan-black-rice-(oryza-sativa-l)-grown-under-various-production-systems",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2682,6 +2741,8 @@ export const documentsData: Document[] = [
   {
     id: 46,
     name: "The Effects of Different Tillage Practices on Soil Properties, Yield and Pest Incidence of Various Sweet Corn (Zea Mays L. Var Saccharata) Varities",
+    filename:
+      "the-effects-of-different-tillage-practices-on-soil-properties-yield-and-pest-incidence-of-various-sweet-corn-(zea-mays-l-var-saccharata)-varities",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2691,6 +2752,8 @@ export const documentsData: Document[] = [
   {
     id: 47,
     name: "Toxicity of Biorational Insectoacaricides to Cassava Red Spider Mite Tetranychus kanzawai Kishida (Acari: Tetranychidae) and its Phytoseiid Predator Amblyseius Longispinosus Evans (Acari: Phytoseiidae)",
+    filename:
+      "toxicity-of-biorational-insectoacaricides-to-cassava-red-spider-mite-tetranychus-kanzawai-kishida-(acari-tetranychidae)-and-its-phytoseiid-predator-amblyseius-longispinosus-evans(acari-phytoseiidae)",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2700,6 +2763,8 @@ export const documentsData: Document[] = [
   {
     id: 48,
     name: "Morphophysical and Nutrient Characteristics of Degraded Soils in Sta. Rita, Samar, Philippines",
+    filename:
+      "morphophysical-and-nutrient-characteristics-of-degraded-soils-in-sta-rita-samar-philippines",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2709,6 +2774,8 @@ export const documentsData: Document[] = [
   {
     id: 49,
     name: "Assessment of Pests, Natural Enemies and Soil Microorganisms in Lowland Rice Field Under Organic and Inorganic Production Systems",
+    filename:
+      "assessment-of-pests-natural-enemies-and-soil-microorganisms-in-lowland-rice-field-under-organic-and-inorganic-production-systems",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2718,6 +2785,8 @@ export const documentsData: Document[] = [
   {
     id: 50,
     name: "Assessing the Rice Production and its Determinants: Empirical Evidence from Albuera, Leyte, Philippines",
+    filename:
+      "assessing-the-rice-production-and-its-determinants-empirical-evidence-from-albuera-leyte-philippines",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2727,6 +2796,8 @@ export const documentsData: Document[] = [
   {
     id: 51,
     name: "Vegetative Phase Extension for Steviol Glycoside Accumulation in Stevia: Photoperiod, In Vitro and Ex Vitro Cultures Manipulation",
+    filename:
+      "vegetative-phase-extension-for-steviol-glycoside-accumulation-in-stevia-photoperiod-in-vitro-and-ex-vitro-cultures-manipulation",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2736,6 +2807,8 @@ export const documentsData: Document[] = [
   {
     id: 52,
     name: "Impact of the COVID-19 Pandemic on Abaca Farm Households: A Cross-Sectional Survey",
+    filename:
+      "impact-of-the-covid19-pandemic-on-abaca-farm-households-a-cross-sectional-survey",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2745,6 +2818,8 @@ export const documentsData: Document[] = [
   {
     id: 53,
     name: "Service Quality and Farmer-Beneficiaries' Satisfaction on the Plant-Now-Pay-Later Program of Baybay City Agriculture Office",
+    filename:
+      "service-quality-and-farmer-beneficiaries-satisfaction-on-the-plant-now-pay-later-program-of-baybay-city-agriculture-office",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2754,6 +2829,8 @@ export const documentsData: Document[] = [
   {
     id: 54,
     name: "Effects of Plant Extracts on the Growth and Yield of Ratoon Lowland Rice (Oryza Sativa L.) When Exposed to High Temperatures",
+    filename:
+      "effects-of-plant-extracts-on-the-growth-and-yield-of-ratoon-lowland-rice-(oryza-sativa-l)-when-exposed-to-high-temperatures",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2763,6 +2840,8 @@ export const documentsData: Document[] = [
   {
     id: 55,
     name: "Econometric Analysis on Rice Farmers' Income as Influenced by Extension Agent's Role",
+    filename:
+      "econometric-analysis-on-rice-farmers-income-as-influenced-by-extension-agents-role",
     relatedSdgs: [2],
     metric: "2.1",
     indicator: "2.1.3",
@@ -2772,6 +2851,7 @@ export const documentsData: Document[] = [
   {
     id: 56,
     name: "Waste Management Profile",
+    filename: "waste-management-profile",
     relatedSdgs: [2],
     metric: "2.2",
     date: new Date(2021, 8, 8),
@@ -2780,6 +2860,7 @@ export const documentsData: Document[] = [
   {
     id: 57,
     name: "Interventions",
+    filename: "interventions",
     relatedSdgs: [2],
     metric: "2.3",
     indicator: "2.3.2",
@@ -2789,6 +2870,7 @@ export const documentsData: Document[] = [
   {
     id: 58,
     name: "Sustainable Food Choices on Campus",
+    filename: "sustainable-food-choices-on-campus",
     relatedSdgs: [2],
     metric: "2.3",
     indicator: "2.3.3",
@@ -2798,6 +2880,7 @@ export const documentsData: Document[] = [
   {
     id: 59,
     name: "Healthy and Affordable Food Choices",
+    filename: "healthy-and-affordable-food-choices",
     relatedSdgs: [2],
     metric: "2.3",
     indicator: "2.3.4",
@@ -2807,6 +2890,7 @@ export const documentsData: Document[] = [
   {
     id: 60,
     name: "Graduates in Agriculture",
+    filename: "graduates-in-agriculture",
     relatedSdgs: [2],
     metric: "2.4",
     date: new Date(2023, 10, 9),
@@ -2815,6 +2899,7 @@ export const documentsData: Document[] = [
   {
     id: 61,
     name: "National Hunger List",
+    filename: "national-hunger-list",
     relatedSdgs: [2],
     metric: "2.5",
     date: new Date(2023, 10, 10),
@@ -2823,6 +2908,8 @@ export const documentsData: Document[] = [
   {
     id: 62,
     name: "Biodiversity Enhancement and Maintenance of Rainforestation Techno-Demo and Learning Site",
+    filename:
+      "biodiversity-enhancement-and-maintenance-of-rainforestation-techno-demo-and-learning-site",
     relatedSdgs: [2],
     metric: "2.5",
     indicator: "2.5.1",
@@ -2832,6 +2919,8 @@ export const documentsData: Document[] = [
   {
     id: 63,
     name: "Integrated Coastal Resource Management in Southeastern Camotes Sea and Selected Municipalities in Leyte",
+    filename:
+      "integrated-coastal-resource-management-in-southeastern-camotes-sea-and-selected-municipalities-in-leyte",
     relatedSdgs: [2],
     metric: "2.5",
     indicator: "2.5.1",
@@ -2841,6 +2930,7 @@ export const documentsData: Document[] = [
   {
     id: 64,
     name: "Medicinal and Pesticidal Garden",
+    filename: "medicinal-and-pesticidal-garden",
     relatedSdgs: [2],
     metric: "2.5",
     indicator: "2.5.1",
@@ -2850,10 +2940,22 @@ export const documentsData: Document[] = [
   {
     id: 65,
     name: "MOA - Fatima MPC",
+    filename: "moa-fatima-mpc",
     relatedSdgs: [2],
     metric: "2.5",
     indicator: "2.5.1",
     date: "No Date",
+    impactRankingsYear: 1,
+  },
+  {
+    id: 66,
+    name: "VSU Implements Car-free and Wellness Wednesdays",
+    filename: "",
+    url: "https://www.vsu.edu.ph/articles/news/2786-vsu-implements-car-free-and-wellness-wednesdays",
+    relatedSdgs: [11],
+    metric: "11.4",
+    indicator: "11.4.2",
+    date: new Date(2025, 8, 2),
     impactRankingsYear: 1,
   },
 ];

@@ -1,7 +1,7 @@
 "use client";
 import {
   articlesData,
-  documentsData,
+  submissionsData,
   impactRankingsYearData,
   progressAndInfo,
   sdgs,
@@ -19,7 +19,7 @@ import ArticleCard from "./article-card";
 import { useEffect, useMemo, useState } from "react";
 import { sortArticlesByDate } from "@/lib/utils";
 import { ArcTimeline } from "../magicui/arc-timeline";
-import { InstitutionalDocumentsSection } from "./institutional-documents";
+import { SupportingEvidencesSection } from "./supporting-evidences";
 import PageTitle from "../common/page-title";
 import Strip from "../common/strip";
 
@@ -188,8 +188,8 @@ export default function SingleSDGView({ id }: { id: number }) {
         <p className="xs:text-base text-justify text-sm">{sdg.overview}</p>
       </section>
 
-      <InstitutionalDocumentsSection
-        documents={documentsData}
+      <SupportingEvidencesSection
+        submissions={submissionsData}
         metrics={sdg.metrics}
         sdg={sdg}
         impactRankingsYears={impactRankingsYearData}

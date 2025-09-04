@@ -42,7 +42,9 @@ export default function HeroSection() {
           <LinkPreview
             url="/sdgs"
             isStatic
-            imageSrc="/images/vsu-lower-pathway.jpg"
+            imageSrc="/images/sdgs-preview.png"
+            height={500}
+            width={250}
           >
             <div
               className="flex items-center justify-center"

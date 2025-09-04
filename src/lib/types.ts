@@ -21,30 +21,32 @@ export interface ImpactRankingsYear {
   year: number; // new Date().getFullYear()
 }
 
-export interface Document {
+export interface Submission {
   id: number;
   name: string;
+  filename: string;
+  url?: string;
   relatedSdgs: SDG["id"][];
   metric: Metric["id"] | Metric["id"][];
   indicator?: Indicator["id"] | Indicator["id"][];
   date: Date | "No Date";
-  impactRankingsYear: ImpactRankingsYear['id'];
+  impactRankingsYear: ImpactRankingsYear["id"];
 }
 
-export interface GroupedDocuments {
-  direct: Document[];
+export interface GroupedSubmissions {
+  direct: Submission[];
   byIndicator: Record<
     string,
     {
       indicator: Indicator;
-      documents: Document[];
+      submissions: Submission[];
     }
   >;
 }
 
-export interface MetricDocuments {
+export interface MetricSubmissions {
   metric: Metric;
-  documents: GroupedDocuments;
+  submissions: GroupedSubmissions;
 }
 
 export interface Metric {

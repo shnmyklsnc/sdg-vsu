@@ -2,10 +2,10 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import {
   Article,
-  Document,
-  GroupedDocuments,
+  Submission,
+  GroupedSubmissions,
   Metric,
-  MetricDocuments,
+  MetricSubmissions,
 } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -17,27 +17,24 @@ export function normalizeToArray<T>(value: T | T[] | undefined): T[] {
   return Array.isArray(value) ? value : [value];
 }
 
-export function groupDocumentsByMetric(
-  documents: Document[],
+export function groupSubmissionsByMetric(
+  documents: Submission[],
   metrics: Metric[],
   sdgId: number
-): MetricDocuments[] {
+): MetricSubmissions[] {
   return metrics.map(metric => {
-    const grouped: GroupedDocuments = {
+    const grouped: GroupedSubmissions = {
       direct: [],
       byIndicator: {},
     };
 
-    // Filter documents that belong to this SDG and metric
     documents.forEach(doc => {
-      // Check if document belongs to this SDG
       if (!doc.relatedSdgs.includes(sdgId)) return;
 
       // Normalize metrics and indicators to arrays
       const docMetrics = normalizeToArray(doc.metric);
       const docIndicators = normalizeToArray(doc.indicator);
 
-      // Check if document belongs to this metric
       const metricIndex = docMetrics.indexOf(metric.id);
       if (metricIndex === -1) return;
 
@@ -45,7 +42,6 @@ export function groupDocumentsByMetric(
       const indicatorId = docIndicators[metricIndex];
 
       if (!indicatorId) {
-        // Direct metric document (no indicator)
         grouped.direct.push(doc);
       } else {
         // Group by indicator ID
@@ -54,27 +50,25 @@ export function groupDocumentsByMetric(
           if (!grouped.byIndicator[indicatorId]) {
             grouped.byIndicator[indicatorId] = {
               indicator,
-              documents: [],
+              submissions: [],
             };
           }
-          grouped.byIndicator[indicatorId].documents.push(doc);
+          grouped.byIndicator[indicatorId].submissions.push(doc);
         }
       }
     });
 
-    // Sort all document arrays by date (newest first)
-    grouped.direct = sortDocumentsByDate(grouped.direct);
+    grouped.direct = sortSubmissionsByDate(grouped.direct);
 
-    // Sort documents within each indicator group
     Object.keys(grouped.byIndicator).forEach(indicatorId => {
-      grouped.byIndicator[indicatorId].documents = sortDocumentsByDate(
-        grouped.byIndicator[indicatorId].documents
+      grouped.byIndicator[indicatorId].submissions = sortSubmissionsByDate(
+        grouped.byIndicator[indicatorId].submissions
       );
     });
 
     return {
       metric,
-      documents: grouped,
+      submissions: grouped,
     };
   });
 }
@@ -96,8 +90,8 @@ export function sortArticlesByDate(articles: Article[]): Article[] {
   });
 }
 
-export function sortDocumentsByDate(documents: Document[]): Document[] {
-  return documents.sort((a, b) => {
+export function sortSubmissionsByDate(submissions: Submission[]): Submission[] {
+  return submissions.sort((a, b) => {
     const aIsNoDate = a.date === "No Date";
     const bIsNoDate = b.date === "No Date";
 
