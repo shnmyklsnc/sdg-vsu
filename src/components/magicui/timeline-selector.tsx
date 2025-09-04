@@ -57,6 +57,30 @@ export function YearSelectorArc(props: YearSelectorArcProps) {
     selectedYear || years[Math.floor(years.length / 2)]?.year
   );
 
+  useEffect(() => {
+    if (selectedYear && selectedYear !== activeYear) {
+      const yearIndex = years.findIndex(y => y.year === selectedYear);
+      if (yearIndex !== -1) {
+        const newRotation =
+          -1 *
+            yearIndex *
+            angleBetweenMinorSteps *
+            (lineCountFillBetweenSteps + 1) -
+          angleBetweenMinorSteps * boundaryPlaceholderLinesCount;
+
+        setActiveYear(selectedYear);
+        setCircleContainerRotateDeg(newRotation);
+      }
+    }
+  }, [
+    activeYear,
+    angleBetweenMinorSteps,
+    boundaryPlaceholderLinesCount,
+    lineCountFillBetweenSteps,
+    selectedYear,
+    years,
+  ]);
+
   // Update active year when rotation changes
   useEffect(() => {
     const normalizedRotation = Math.abs(
