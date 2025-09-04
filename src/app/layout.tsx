@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import HeaderMobile from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import Strip from "@/components/common/strip";
+import { Toaster } from "@/components/ui/sonner";
 
 // VSU Brand Fonts based on brand guidelines
 // https://brandbook.vsu.edu.ph/sections/branding-elements
@@ -71,6 +72,7 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
+          <Toaster position="top-center" richColors />
           <HeaderMobile />
           <main>{children}</main>
           <Strip variant="secondary" />

@@ -1,7 +1,10 @@
-import { Submission, ImpactRankingsYear, Metric, SDG } from "@/lib/types";
+import { ImpactRankingsYear, Metric, SDG, Submission } from "@/lib/types";
 import { groupSubmissionsByMetric } from "@/lib/utils";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
 import { YearSelectorArc } from "../magicui/timeline-selector";
+import { InfoIcon, Link2 } from "lucide-react";
 import Image from "next/image";
 import SubmissionItem from "./submission-item";
 import {
@@ -10,8 +13,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { useSearchParams } from "next/navigation";
-import { InfoIcon } from "lucide-react";
 
 export function SupportingEvidencesSection({
   submissions,
@@ -76,32 +77,38 @@ export function SupportingEvidencesSection({
   });
 
   // Update URL params helper
-  const updateUrlParams = (updates: Record<string, string | null>) => {
-    const params = new URLSearchParams(searchParams.toString());
+  const updateUrlParams = useCallback(
+    (updates: Record<string, string | null>) => {
+      const params = new URLSearchParams(searchParams.toString());
 
-    Object.entries(updates).forEach(([key, value]) => {
-      if (value === null) {
-        params.delete(key);
-      } else {
-        params.set(key, value);
-      }
-    });
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === null) {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
 
-    window.history.pushState({}, "", `/sdgs/${sdg.id}?${params.toString()}`);
-  };
+      window.history.pushState({}, "", `/sdgs/${sdg.id}?${params.toString()}`);
+    },
+    [searchParams, sdg.id]
+  );
 
   // Update URL when year changes
-  const handleYearChange = (year: number) => {
-    const yearInfo = yearData.find(y => y.year === year);
-    if (!yearInfo) return;
+  const handleYearChange = useCallback(
+    (year: number) => {
+      const yearInfo = yearData.find(y => y.year === year);
+      if (!yearInfo) return;
 
-    setSelectedYearData({
-      year: yearInfo.year,
-      impactRankingsYearId: yearInfo.impactRankingsYearId,
-    });
+      setSelectedYearData({
+        year: yearInfo.year,
+        impactRankingsYearId: yearInfo.impactRankingsYearId,
+      });
 
-    updateUrlParams({ year: year.toString() });
-  };
+      updateUrlParams({ year: year.toString() });
+    },
+    [yearData, updateUrlParams]
+  );
 
   const filteredMetrics = useMemo(() => {
     if (!selectedYearData) return [];
@@ -174,14 +181,55 @@ export function SupportingEvidencesSection({
   }, [searchParams, filteredMetrics]);
 
   // Handle metric click
-  const handleMetricClick = (metricId: string) => {
-    updateUrlParams({ metric: metricId, indicator: null });
-  };
+  const handleMetricClick = useCallback(
+    (metricId: string) => {
+      updateUrlParams({ metric: metricId, indicator: null });
+    },
+    [updateUrlParams]
+  );
 
   // Handle indicator click
-  const handleIndicatorClick = (metricId: string, indicatorId: string) => {
-    updateUrlParams({ metric: metricId, indicator: indicatorId });
-  };
+  const handleIndicatorClick = useCallback(
+    (metricId: string, indicatorId: string) => {
+      updateUrlParams({ metric: metricId, indicator: indicatorId });
+    },
+    [updateUrlParams]
+  );
+
+  // Copy link functions
+  const copyMetricLink = useCallback(
+    (e: React.MouseEvent, metricId: string) => {
+      e.stopPropagation();
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("metric", metricId);
+      params.delete("indicator");
+      const url = `${window.location.origin}/sdgs/${sdg.id}?${params.toString()}`;
+
+      navigator.clipboard.writeText(url).then(() => {
+        toast.success("Link copied to clipboard", {
+          duration: 2000,
+        });
+      });
+    },
+    [searchParams, sdg.id]
+  );
+
+  const copyIndicatorLink = useCallback(
+    (e: React.MouseEvent, metricId: string, indicatorId: string) => {
+      e.stopPropagation();
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("metric", metricId);
+      params.set("indicator", indicatorId);
+      const url = `${window.location.origin}/sdgs/${sdg.id}?${params.toString()}`;
+
+      navigator.clipboard.writeText(url).then(() => {
+        toast.success("Link copied to clipboard", {
+          duration: 2000,
+        });
+      });
+    },
+    [searchParams, sdg.id]
+  );
 
   return (
     <section className="mb-16 lg:container">
@@ -287,12 +335,21 @@ export function SupportingEvidencesSection({
                           <div className="text-muted-foreground text-sm">
                             Metric
                           </div>
-                          <h4
-                            className="hover:text-primary cursor-pointer text-2xl font-bold tracking-wider transition-colors"
+                          <div
+                            className="group flex items-center gap-2"
                             onClick={() => handleMetricClick(metric.id)}
                           >
-                            {metric.id}
-                          </h4>
+                            <h4 className="hover:text-primary cursor-pointer text-2xl font-bold tracking-wider transition-colors">
+                              {metric.id}
+                            </h4>
+                            <button
+                              onClick={e => copyMetricLink(e, metric.id)}
+                              className="text-muted-foreground hover:text-primary hover:bg-muted cursor-pointer rounded-md p-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                              aria-label="Copy link to metric"
+                            >
+                              <Link2 className="h-4 w-4" />
+                            </button>
+                          </div>
                           <p className="mt-1 text-justify text-sm whitespace-normal">
                             {metric.name}
                           </p>
@@ -364,8 +421,8 @@ export function SupportingEvidencesSection({
                                       }}
                                       className="scroll-mt-4"
                                     >
-                                      <h5
-                                        className="hover:text-primary cursor-pointer text-base font-semibold tracking-wide transition-colors"
+                                      <div
+                                        className="group mb-2 flex items-center gap-2"
                                         onClick={() =>
                                           handleIndicatorClick(
                                             metric.id,
@@ -373,8 +430,23 @@ export function SupportingEvidencesSection({
                                           )
                                         }
                                       >
-                                        {indicatorId}
-                                      </h5>
+                                        <h5 className="hover:text-primary cursor-pointer text-base font-semibold tracking-wide transition-colors">
+                                          {indicatorId}
+                                        </h5>
+                                        <button
+                                          onClick={e =>
+                                            copyIndicatorLink(
+                                              e,
+                                              metric.id,
+                                              indicatorId
+                                            )
+                                          }
+                                          className="text-muted-foreground hover:text-primary hover:bg-muted cursor-pointer rounded-md p-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                                          aria-label="Copy link to indicator"
+                                        >
+                                          <Link2 className="h-3.5 w-3.5" />
+                                        </button>
+                                      </div>
                                       <p className="text-muted-foreground mb-2 text-sm">
                                         {indicator.name}
                                       </p>
