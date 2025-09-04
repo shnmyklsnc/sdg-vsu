@@ -174,21 +174,16 @@ export function YearSelectorArc(props: YearSelectorArcProps) {
                 />
                 <div
                   className={cn(
-                    "absolute top-0 left-7 z-10 -translate-x-1/2 translate-y-[calc(-100%-24px)] whitespace-nowrap",
+                    "absolute top-0 left-0 z-10 -translate-x-1/2 translate-y-[calc(-100%-24px)] whitespace-nowrap",
                     isActive
                       ? "font-bold text-[var(--time-active-color,#146939)] dark:text-[var(--time-active-color,#fcd83d)]"
                       : "text-[var(--time-inactive-color,#888)] dark:text-[var(--time-inactive-color,#aaa)]"
                   )}
                   style={{
-                    transform: `translate(-50%, calc(-100% - 24px)) rotate(${-1 * angle - circleContainerRotateDeg}deg)`,
+                    transform: `translate(-50%, -50% rotate(${-1 * angle - circleContainerRotateDeg}deg)`,
                   }}
                 >
                   {yearItem.year}
-                  {yearItem.count !== undefined && (
-                    <span className="ml-1 text-xs opacity-70">
-                      ({yearItem.count})
-                    </span>
-                  )}
                 </div>
               </div>
 

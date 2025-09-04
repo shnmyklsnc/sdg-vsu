@@ -247,6 +247,11 @@ export function SupportingEvidencesSection({
   const copyMetricLink = useCallback(
     (e: React.MouseEvent, metricId: string) => {
       e.stopPropagation();
+
+      if (!window.isSecureContext) {
+        return;
+      }
+
       const params = new URLSearchParams(searchParams.toString());
       params.set("metric", metricId);
       params.delete("indicator");
@@ -264,6 +269,11 @@ export function SupportingEvidencesSection({
   const copyIndicatorLink = useCallback(
     (e: React.MouseEvent, metricId: string, indicatorId: string) => {
       e.stopPropagation();
+
+      if (!window.isSecureContext) {
+        return;
+      }
+
       const params = new URLSearchParams(searchParams.toString());
       params.set("metric", metricId);
       params.set("indicator", indicatorId);
@@ -406,12 +416,12 @@ export function SupportingEvidencesSection({
                                   className="group flex items-center gap-2"
                                   onClick={() => handleMetricClick(metric.id)}
                                 >
-                                  <h4 className="hover:text-primary cursor-pointer text-2xl font-bold tracking-wider transition-colors">
+                                  <h4 className="hover:text-primary dark:hover:text-secondary cursor-pointer text-2xl font-bold tracking-wider transition-colors">
                                     {metric.id}
                                   </h4>
                                   <button
                                     onClick={e => copyMetricLink(e, metric.id)}
-                                    className="text-muted-foreground hover:text-primary hover:bg-muted cursor-pointer rounded-md p-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                                    className="text-muted-foreground hover:text-primary dark:hover:text-secondary hover:bg-muted cursor-pointer rounded-md p-1 opacity-100 transition-opacity duration-200 group-hover:opacity-100 lg:opacity-0"
                                     aria-label="Copy link to metric"
                                   >
                                     <Link2 className="h-4 w-4" />
@@ -503,7 +513,7 @@ export function SupportingEvidencesSection({
                                                 )
                                               }
                                             >
-                                              <h5 className="hover:text-primary cursor-pointer text-base font-semibold tracking-wide transition-colors">
+                                              <h5 className="hover:text-primary dark:hover:text-secondary cursor-pointer text-base font-semibold tracking-wide transition-colors">
                                                 {indicatorId}
                                               </h5>
                                               <button
@@ -514,7 +524,7 @@ export function SupportingEvidencesSection({
                                                     indicatorId
                                                   )
                                                 }
-                                                className="text-muted-foreground hover:text-primary hover:bg-muted cursor-pointer rounded-md p-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                                                className="text-muted-foreground hover:text-primary dark:hover:text-secondary hover:bg-muted cursor-pointer rounded-md p-1 opacity-100 transition-opacity duration-200 group-hover:opacity-100 lg:opacity-0"
                                                 aria-label="Copy link to indicator"
                                               >
                                                 <Link2 className="h-3.5 w-3.5" />
