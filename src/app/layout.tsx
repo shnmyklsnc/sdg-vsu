@@ -51,8 +51,9 @@ export const metadata: Metadata = {
   keywords:
     "SDG, sustainability, university, impact rankings, THE rankings, VSU, Visayas State University",
   openGraph: {
-    title: "THE Impact Rankings Documentation",
-    description: "University SDG initiatives and documentation",
+    title: "Visayas State University - Sustainable Development Goals",
+    description:
+      "Sustainable development goals of the Visayas State University in alignment of the Times Higher Education Impact Rankings.",
     type: "website",
   },
 };

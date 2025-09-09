@@ -52,6 +52,7 @@ export interface MetricSubmissions {
 export interface Metric {
   id: string;
   name: string;
+  description?: string;
   indicators: Indicator[];
   impactRankingsYear: ImpactRankingsYear["id"];
 }
@@ -59,6 +60,7 @@ export interface Metric {
 export interface Indicator {
   id: string;
   name: string;
+  description?: string;
   dataSource: "bibliometric" | "portal" | "evidence";
 }
 

@@ -179,7 +179,7 @@ export default function HeaderMobile() {
               width={110}
               height={110}
               priority
-              className="h-auto w-auto object-cover"
+              className="h-full w-auto object-cover"
             />
           </Link>
           <Link
@@ -201,7 +201,7 @@ export default function HeaderMobile() {
               width={110}
               height={110}
               priority
-              className="h-auto w-auto object-cover"
+              className="h-full w-auto object-cover"
             />
           </Link>
 
@@ -388,7 +388,7 @@ export default function HeaderMobile() {
                   width={110}
                   height={110}
                   priority
-                  className="h-auto w-auto object-cover"
+                  className="h-full w-auto object-cover"
                 />
               </Link>
               <Link
@@ -410,7 +410,7 @@ export default function HeaderMobile() {
                   width={110}
                   height={110}
                   priority
-                  className="h-auto w-auto object-cover"
+                  className="h-full w-auto object-cover"
                 />
               </Link>
               <nav>
