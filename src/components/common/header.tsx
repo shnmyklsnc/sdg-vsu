@@ -177,9 +177,9 @@ export default function HeaderMobile() {
               src="/logo/VSU Text Logo.png"
               alt="Visayas State University Text Logo"
               width={110}
-              height={110}
+              height={40}
               priority
-              className="h-full w-auto object-cover"
+              className="h-auto w-auto object-contain"
             />
           </Link>
           <Link
@@ -199,9 +199,9 @@ export default function HeaderMobile() {
               src="/logo/VSU Text Logo (White).png"
               alt="Visayas State University Text Logo"
               width={110}
-              height={110}
+              height={40}
               priority
-              className="h-full w-auto object-cover"
+              className="h-auto w-auto object-contain"
             />
           </Link>
 
@@ -386,9 +386,9 @@ export default function HeaderMobile() {
                   src="/logo/VSU Text Logo.png"
                   alt="Visayas State University Text Logo"
                   width={110}
-                  height={110}
+                  height={40}
                   priority
-                  className="h-full w-auto object-cover"
+                  className="h-auto w-auto object-contain"
                 />
               </Link>
               <Link
@@ -408,9 +408,9 @@ export default function HeaderMobile() {
                   src="/logo/VSU Text Logo (White).png"
                   alt="Visayas State University Text Logo"
                   width={110}
-                  height={110}
+                  height={40}
                   priority
-                  className="h-full w-auto object-cover"
+                  className="h-auto w-auto object-contain"
                 />
               </Link>
               <nav>

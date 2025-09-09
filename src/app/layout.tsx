@@ -6,6 +6,7 @@ import HeaderMobile from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import Strip from "@/components/common/strip";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 // VSU Brand Fonts based on brand guidelines
 // https://brandbook.vsu.edu.ph/sections/branding-elements
@@ -78,6 +79,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Strip variant="secondary" />
           <Footer />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
