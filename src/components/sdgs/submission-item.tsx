@@ -1,20 +1,42 @@
-import { Submission } from "@/lib/types";
+import { Indicator, Metric, Submission } from "@/lib/types";
 import { FileIcon, LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
 
 export default function SubmissionItem({
   submission,
+  sdgId,
+  metric,
+  indicator,
+  year,
 }: {
   submission: Submission;
+  sdgId: number;
+  metric: Metric;
+  indicator?: Indicator;
+  year: number;
 }) {
   const filename = useMemo(() => {
     if (submission.url) {
+      // Submission url for external links
       return submission.url;
     } else {
-      return `/documents/${submission.id}-${submission.filename}.pdf`;
+      if (indicator) {
+        // Indicator-level submission
+        return `/sdgs/${sdgId}/evidence?metric=${metric.id}&indicator=${indicator.id}&year=${year}&file=${submission.id}-${submission.filename}.pdf`;
+      }
+      // Metric-level submission
+      return `/sdgs/${sdgId}/evidence?metric=${metric.id}&year=${year}&file=${submission.id}-${submission.filename}.pdf`;
     }
-  }, [submission.filename, submission.id, submission.url]);
+  }, [
+    indicator,
+    metric.id,
+    sdgId,
+    submission.filename,
+    submission.id,
+    submission.url,
+    year,
+  ]);
 
   return (
     <div className="flex items-start gap-2">
@@ -27,7 +49,6 @@ export default function SubmissionItem({
         <Link
           href={filename}
           className="dark:text-secondary xs:text-base text-primary block truncate text-sm hover:underline"
-          target="_blank"
           rel="noopener noreferrer"
         >
           {submission.name}

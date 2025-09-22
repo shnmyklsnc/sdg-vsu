@@ -13,24 +13,116 @@ import {
   ArrowRight,
   SquareArrowOutUpRight,
   Telescope,
+  XIcon,
+  Pin,
+  PinOff,
 } from "lucide-react";
 import Link from "next/link";
 import ArticleCard from "./article-card";
-import { useEffect, useMemo, useState } from "react";
-import { sortArticlesByDate } from "@/lib/utils";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { cn, sortArticlesByDate } from "@/lib/utils";
 import { ArcTimeline } from "../magicui/arc-timeline";
 import { SupportingEvidencesSection } from "./supporting-evidences";
 import PageTitle from "../common/page-title";
 import Strip from "../common/strip";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "../ui/sheet";
 
 export default function SingleSDGView({ id }: { id: number }) {
+  const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
   const [timelineWidth, setTimelineWidth] = useState<number>(0);
+  const [miniNavigationIsVisible, setMiniNavigationIsVisible] =
+    useState<boolean>(true);
+  const [isHoveringNav, setIsHoveringNav] = useState<boolean>(false);
+
+  const [isDocked, setIsDocked] = useState<boolean>(false);
+  const [navPosition, setNavPosition] = useState<number>(50); // Percentage from top
+  const sdgDescriptionRef = useRef<HTMLElement>(null);
+  const lastSectionRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setTimelineWidth(window.outerWidth);
     }
+
+    const savedDockState = localStorage.getItem("sdg-nav-docked");
+    if (savedDockState !== null) {
+      setIsDocked(JSON.parse(savedDockState));
+    }
   }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("sdg-nav-docked", JSON.stringify(isDocked));
+  }, [isDocked]);
+
+  useEffect(() => {
+    if (
+      !isDocked ||
+      !sdgDescriptionRef.current ||
+      !lastSectionRef.current ||
+      !navRef.current
+    ) {
+      return;
+    }
+
+    const handleScroll = () => {
+      const sdgTop = sdgDescriptionRef.current!.getBoundingClientRect().top;
+      const lastSectionBottom =
+        lastSectionRef.current!.getBoundingClientRect().top;
+      const navHeight = navRef.current!.offsetHeight;
+      const windowHeight = window.innerHeight;
+
+      // Calculate boundaries
+      const topBoundary = Math.max(0, sdgTop); // Can't go above SDG description
+      const bottomBoundary = Math.min(
+        windowHeight - navHeight,
+        lastSectionBottom - navHeight
+      );
+
+      // Calculate ideal center position
+      const idealPosition = (windowHeight - navHeight) / 2;
+
+      // Constrain position within boundaries
+      let finalPosition = idealPosition;
+      if (idealPosition < topBoundary) {
+        finalPosition = topBoundary;
+      } else if (idealPosition > bottomBoundary) {
+        finalPosition = bottomBoundary;
+      }
+
+      // Convert to percentage
+      const percentage = (finalPosition / windowHeight) * 100;
+      setNavPosition(percentage);
+    };
+
+    handleScroll(); // Initial position
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [isDocked]);
 
   const sdg = useMemo(() => sdgs.find(s => s.id === id)!, [id]);
 
@@ -53,12 +145,266 @@ export default function SingleSDGView({ id }: { id: number }) {
   const prevSDG = ((id - 2 + 17) % 17) + 1;
   const nextSDG = (id % 17) + 1;
 
+  useEffect(() => {
+    if (isDocked) return; // Skip hover detection when docked
+
+    let hideTimeout: NodeJS.Timeout;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const threshold = 100;
+      const isNearRightEdge = window.innerWidth - e.clientX < threshold;
+
+      if (isNearRightEdge || isHoveringNav) {
+        setMiniNavigationIsVisible(true);
+        clearTimeout(hideTimeout);
+      } else {
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => {
+          if (!isHoveringNav) {
+            setMiniNavigationIsVisible(false);
+          }
+        }, 300);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      clearTimeout(hideTimeout);
+    };
+  }, [isHoveringNav, isDocked]);
+
   return (
-    <article role="main">
+    <article role="main" className="relative">
+      {/* SDG mini navigation */}
+      {!isMobile && (
+        <nav
+          ref={navRef}
+          className={cn(
+            "fixed right-0 z-50 transition-all duration-300 ease-out",
+            isDocked
+              ? "translate-x-0 opacity-100"
+              : miniNavigationIsVisible
+                ? "translate-x-0 opacity-100"
+                : "pointer-events-none translate-x-full opacity-0",
+            !isDocked && "top-1/2 -translate-y-1/2"
+          )}
+          style={isDocked ? { top: `${navPosition}%` } : undefined}
+          aria-label="SDG Mini Navigation"
+          id="sdg-mini-navigation"
+          onMouseEnter={() => setIsHoveringNav(true)}
+          onMouseLeave={() => setIsHoveringNav(false)}
+        >
+          {/* Invisible trigger area - only when not docked */}
+          {!isDocked && (
+            <div className="absolute top-0 bottom-0 -left-20 w-20" />
+          )}
+
+          {/* Navigation content */}
+          <div className="border-border/50 relative rounded-l-2xl border-l bg-transparent shadow-2xl backdrop-blur-md">
+            {/* Control buttons */}
+            <div className="border-border/50 flex items-center justify-end border-b p-2 px-3">
+              <button
+                onClick={() => setIsDocked(!isDocked)}
+                className={cn(
+                  "flex h-8 w-8 cursor-pointer items-center justify-center rounded-md transition-colors",
+                  "hover:bg-muted",
+                  isDocked && "text-primary dark:text-secondary"
+                )}
+                aria-label={isDocked ? "Undock navigation" : "Dock navigation"}
+                title={isDocked ? "Undock navigation" : "Dock navigation"}
+              >
+                {isDocked ? (
+                  <PinOff className="h-4 w-4" />
+                ) : (
+                  <Pin className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+
+            {/* SDG Grid */}
+            <div className="p-3">
+              <ol className="grid grid-cols-2 gap-2">
+                {sdgs.map(sdgItem => (
+                  <li key={sdgItem.id} className="relative">
+                    <Link
+                      href={`/sdgs/${sdgItem.id}`}
+                      className={cn(
+                        "relative block h-12 w-12 transition-all duration-200",
+                        "hover:scale-110 hover:shadow-xl active:scale-95",
+                        "group overflow-hidden rounded-md"
+                      )}
+                      title={`SDG ${sdgItem.id}: ${sdgItem.description}`}
+                    >
+                      {/* Active indicator ring */}
+                      {sdgItem.id === id && (
+                        <span className="ring-offset-background absolute inset-0 rounded-md ring-2 ring-offset-2" />
+                      )}
+
+                      {/* SDG Image */}
+                      <Image
+                        src={`/sdgs/${sdgItem.id}.png`}
+                        alt={`SDG ${sdgItem.id}`}
+                        width={120}
+                        height={120}
+                        className={cn(
+                          "h-full w-full object-contain transition-all duration-200",
+                          sdgItem.id === id
+                            ? "scale-100"
+                            : "opacity-80 group-hover:scale-105 group-hover:opacity-100"
+                        )}
+                      />
+                    </Link>
+                  </li>
+                ))}
+
+                {/* Last symmetry image */}
+                <li className="relative">
+                  <Link
+                    href="/sdgs"
+                    title="All SDGs"
+                    className={cn(
+                      "relative block h-12 w-12 transition-all duration-200",
+                      "hover:scale-110 hover:shadow-xl active:scale-95",
+                      "group overflow-hidden rounded-md"
+                    )}
+                  >
+                    <Image
+                      src="/sdgs/sdg.png"
+                      alt="SDG"
+                      width={120}
+                      height={120}
+                      className="h-full w-full object-contain opacity-60 group-hover:opacity-100"
+                    />
+                  </Link>
+                </li>
+              </ol>
+            </div>
+
+            {/* Edge indicator */}
+            <div className="absolute top-1/2 -left-3 -translate-y-1/2">
+              <div className="via-primary/20 dark:via-secondary/20 h-32 w-1 rounded-full bg-gradient-to-b from-transparent to-transparent" />
+            </div>
+          </div>
+        </nav>
+      )}
+
+      {isMobile && (
+        <>
+          {/* FAB with SDG preview */}
+          <button
+            onClick={() => setMobileNavOpen(true)}
+            className={cn(
+              "fixed right-2 bottom-20 z-40 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-all duration-300",
+              "cursor-pointer border-2 p-1",
+              "hover:shadow-xl active:scale-95",
+              mobileNavOpen && "pointer-events-none scale-0 opacity-0"
+            )}
+            aria-label="Open SDG Navigation"
+            style={{ backgroundColor: sdg.color }}
+          >
+            <Image
+              src={`/sdgs/logo/${sdg.id}.png`}
+              alt={`Current: SDG ${sdg.id}`}
+              width={16}
+              height={16}
+              className="h-auto w-auto object-cover"
+            />
+          </button>
+
+          <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
+            <SheetContent
+              side="bottom"
+              className="h-1/2 overflow-y-auto"
+              showClose={false}
+            >
+              {/* Header */}
+              <SheetHeader className="bg-background fixed z-2000 -mt-1 grid w-full grid-cols-2 shadow-lg">
+                <div className="w-fit">
+                  <SheetTitle>Navigate to SDG</SheetTitle>
+                  <SheetDescription>
+                    Currently viewing: SDG {sdg.id}
+                  </SheetDescription>
+                </div>
+                <button
+                  className="text-foreground w-fit cursor-pointer self-start justify-self-end"
+                  onClick={() => setMobileNavOpen(false)}
+                >
+                  <XIcon className="size-4" />
+                  <span className="sr-only">Close</span>
+                </button>
+              </SheetHeader>
+
+              {/* SDG Grid */}
+              <ol className="grid grid-cols-3 gap-4 px-4 pt-24 pb-4 sm:grid-cols-4">
+                {sdgs.map(sdgItem => (
+                  <li key={sdgItem.id}>
+                    <Link
+                      href={`/sdgs/${sdgItem.id}`}
+                      onClick={() => setMobileNavOpen(false)}
+                      className="group"
+                    >
+                      <div
+                        className={cn(
+                          "relative aspect-square overflow-hidden rounded-xl transition-all duration-200",
+                          "active:scale-95",
+                          sdgItem.id === id && "ring-2 ring-offset-4"
+                        )}
+                      >
+                        <Image
+                          src={`/sdgs/${sdgItem.id}.png`}
+                          alt={`SDG ${sdgItem.id}`}
+                          width={240}
+                          height={240}
+                          className={cn(
+                            "h-full w-full object-contain transition-opacity",
+                            sdgItem.id === id
+                              ? "opacity-100"
+                              : "opacity-80 group-active:opacity-100"
+                          )}
+                        />
+                      </div>
+                      <p className="text-muted-foreground mt-2 line-clamp-1 text-center text-xs">
+                        Goal {sdgItem.id}
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+
+                {/* All SDGs link */}
+                <li>
+                  <Link
+                    href="/sdgs"
+                    onClick={() => setMobileNavOpen(false)}
+                    className="group"
+                  >
+                    <div className="relative aspect-square overflow-hidden rounded-xl transition-all duration-200 active:scale-95">
+                      <Image
+                        src="/sdgs/sdg.png"
+                        alt="All SDGs"
+                        width={240}
+                        height={240}
+                        className="h-full w-full object-contain opacity-60 group-active:opacity-80"
+                      />
+                    </div>
+                    <p className="text-muted-foreground mt-2 text-center text-xs">
+                      All Goals
+                    </p>
+                  </Link>
+                </li>
+              </ol>
+            </SheetContent>
+          </Sheet>
+        </>
+      )}
+
       {/* Hero section */}
       <PageTitle title={<>SDG {id}</>} />
 
       <section
+        ref={sdgDescriptionRef}
+        id="sdg-description"
         aria-label="SDG Description"
         className="relative mb-8 overflow-hidden lg:container"
         style={{ background: `${sdg.color}` }}
@@ -285,6 +631,7 @@ export default function SingleSDGView({ id }: { id: number }) {
         </div>
       </div>
       <div
+        ref={lastSectionRef}
         className="mb-7 hidden h-30 items-center md:grid md:grid-cols-[0.5fr_1fr_0.5fr] lg:container"
         aria-label="SDG Navigation Controls"
         role="navigation"

@@ -232,16 +232,24 @@ export function SupportingEvidencesSection({
 
   const handleMetricClick = useCallback(
     (metricId: string) => {
-      updateUrlParams({ metric: metricId, indicator: null });
+      updateUrlParams({
+        metric: metricId,
+        indicator: null,
+        year: `${selectedYearData?.year}`,
+      });
     },
-    [updateUrlParams]
+    [selectedYearData?.year, updateUrlParams]
   );
 
   const handleIndicatorClick = useCallback(
     (metricId: string, indicatorId: string) => {
-      updateUrlParams({ metric: metricId, indicator: indicatorId });
+      updateUrlParams({
+        metric: metricId,
+        indicator: indicatorId,
+        year: `${selectedYearData?.year}`,
+      });
     },
-    [updateUrlParams]
+    [updateUrlParams, selectedYearData?.year]
   );
 
   const copyMetricLink = useCallback(
@@ -254,6 +262,7 @@ export function SupportingEvidencesSection({
 
       const params = new URLSearchParams(searchParams.toString());
       params.set("metric", metricId);
+      params.set("year", selectedYearData?.year.toString() || "");
       params.delete("indicator");
       const url = `${window.location.origin}/sdgs/${sdg.id}?${params.toString()}`;
 
@@ -263,7 +272,7 @@ export function SupportingEvidencesSection({
         });
       });
     },
-    [searchParams, sdg.id]
+    [searchParams, sdg.id, selectedYearData?.year]
   );
 
   const copyIndicatorLink = useCallback(
@@ -277,6 +286,7 @@ export function SupportingEvidencesSection({
       const params = new URLSearchParams(searchParams.toString());
       params.set("metric", metricId);
       params.set("indicator", indicatorId);
+      params.set("year", selectedYearData?.year.toString() || "");
       const url = `${window.location.origin}/sdgs/${sdg.id}?${params.toString()}`;
 
       navigator.clipboard.writeText(url).then(() => {
@@ -285,7 +295,7 @@ export function SupportingEvidencesSection({
         });
       });
     },
-    [searchParams, sdg.id]
+    [searchParams, sdg.id, selectedYearData?.year]
   );
 
   return (
@@ -446,6 +456,9 @@ export function SupportingEvidencesSection({
                                   {submissions.direct.map(submission => (
                                     <SubmissionItem
                                       key={submission.id}
+                                      sdgId={sdg.id}
+                                      metric={metric}
+                                      year={selectedYearData.year}
                                       submission={submission}
                                     />
                                   ))}
@@ -537,6 +550,10 @@ export function SupportingEvidencesSection({
                                               {submissions.map(submission => (
                                                 <SubmissionItem
                                                   key={submission.id}
+                                                  sdgId={sdg.id}
+                                                  metric={metric}
+                                                  indicator={indicator}
+                                                  year={selectedYearData.year}
                                                   submission={submission}
                                                 />
                                               ))}
