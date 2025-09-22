@@ -201,7 +201,7 @@ export default function HeaderMobile() {
               width={110}
               height={40}
               priority
-              className="h-auto w-auto object-contain brightness-100"
+              className="h-auto w-auto object-contain brightness-0 invert-100"
             />
           </Link>
 
