@@ -196,7 +196,7 @@ export default function HeaderMobile() {
               className="h-auto w-auto object-cover"
             />
             <Image
-              src="/logo/VSU Text Logo (White).png"
+              src="/logo/VSU Text Logo.png"
               alt="Visayas State University Text Logo"
               width={110}
               height={40}
