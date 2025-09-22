@@ -14,7 +14,6 @@ export async function generateMetadata({
     metric: string;
     indicator?: string;
     year: string;
-    file: string;
   }>;
 }): Promise<Metadata> {
   const paramsData = await params;
@@ -34,23 +33,29 @@ export async function generateMetadata({
 }
 
 export default async function EvidencePage({
+  params,
   searchParams,
 }: {
+  params: Promise<{
+    id: string;
+  }>;
   searchParams: Promise<{
     metric: string;
     indicator?: string;
     year: string;
-    file: string;
+    submissionId: string;
   }>;
 }) {
-  const { metric, indicator, year, file } = await searchParams;
+  const { id } = await params;
+  const { metric, indicator, year, submissionId } = await searchParams;
 
   return (
     <EvidenceView
+      sdgId={id}
       metric={metric}
       indicator={indicator}
       year={year}
-      file={file}
+      submissionId={submissionId}
     />
   );
 }

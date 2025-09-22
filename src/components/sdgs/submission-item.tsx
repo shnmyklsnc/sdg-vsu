@@ -23,20 +23,12 @@ export default function SubmissionItem({
     } else {
       if (indicator) {
         // Indicator-level submission
-        return `/sdgs/${sdgId}/evidence?metric=${metric.id}&indicator=${indicator.id}&year=${year}&file=${submission.id}-${submission.filename}.pdf`;
+        return `/sdgs/${sdgId}/evidence?metric=${metric.id}&indicator=${indicator.id}&year=${year}&submissionId=${submission.id}`;
       }
       // Metric-level submission
-      return `/sdgs/${sdgId}/evidence?metric=${metric.id}&year=${year}&file=${submission.id}-${submission.filename}.pdf`;
+      return `/sdgs/${sdgId}/evidence?metric=${metric.id}&year=${year}&submissionId=${submission.id}`;
     }
-  }, [
-    indicator,
-    metric.id,
-    sdgId,
-    submission.filename,
-    submission.id,
-    submission.url,
-    year,
-  ]);
+  }, [indicator, metric.id, sdgId, submission.id, submission.url, year]);
 
   return (
     <div className="flex items-start gap-2">

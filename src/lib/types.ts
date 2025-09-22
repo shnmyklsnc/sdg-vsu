@@ -21,12 +21,18 @@ export interface ImpactRankingsYear {
   year: number; // new Date().getFullYear()
 }
 
+export interface RelatedLink {
+  label: string;
+  url: string;
+}
+
 export interface Submission {
   id: number;
   name: string;
   filename: string;
   url?: string;
   relatedSdgs: SDG["id"][];
+  relatedLinks?: RelatedLink[];
   metric: Metric["id"] | Metric["id"][];
   indicator?: Indicator["id"] | Indicator["id"][];
   date: Date | "No Date";
@@ -71,6 +77,7 @@ export interface Article {
   author: string;
   datePublished: Date | "No Date";
   relatedSdgs: SDG["id"][];
+  relatedSubmissions?: Submission["id"][];
   metric?: Metric["name"] | Metric["name"][];
   indicator?: string | string[];
   thumbnail?: string;

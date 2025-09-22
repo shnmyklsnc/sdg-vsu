@@ -2064,6 +2064,7 @@ export const articlesData: Article[] = [
     author: "Mike Laurence V. Lumen",
     datePublished: new Date(2025, 6, 17),
     relatedSdgs: [11, 2],
+    relatedSubmissions: [7],
     thumbnail:
       "/articles/2745-vsu-rolls-out-free-meals-for-evacuated-dorm-students-amid-heavy-rains/thumbnail.png",
   },
@@ -2076,6 +2077,7 @@ export const articlesData: Article[] = [
     author: "Marianne C. Bayron",
     datePublished: new Date(2023, 6, 20),
     relatedSdgs: [1, 2, 3, 10],
+    relatedSubmissions: [7],
     thumbnail:
       "/articles/2378-vsu-s-extension-project-bidani-is-awarded-for-its-more-than-3-decades-of-service/thumbnail.jpg",
   },
@@ -2341,6 +2343,16 @@ export const submissionsData: Submission[] = [
     filename:
       "affirmative-admission-policy-for-children-of-underpriviledged-families",
     relatedSdgs: [1],
+    relatedLinks: [
+      {
+        label: "Low-Income Student Support",
+        url: "/sdgs/1/evidence?metric=1.3&indicator=1.3.3&year=2024&submissionId=6",
+      },
+      {
+        label: "BOR Resolution 2019 VSU-Funded Scholarship",
+        url: "/sdgs/1/evidence?metric=1.2&indicator=1.2.1&year=2024&submissionId=2",
+      },
+    ],
     metric: "1.3",
     indicator: "1.3.4",
     date: new Date(2019, 2, 18),

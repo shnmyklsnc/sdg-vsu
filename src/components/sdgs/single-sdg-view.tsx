@@ -340,11 +340,7 @@ export default function SingleSDGView({ id }: { id: number }) {
               <ol className="grid grid-cols-3 gap-4 px-4 pt-24 pb-4 sm:grid-cols-4">
                 {sdgs.map(sdgItem => (
                   <li key={sdgItem.id}>
-                    <Link
-                      href={`/sdgs/${sdgItem.id}`}
-                      onClick={() => setMobileNavOpen(false)}
-                      className="group"
-                    >
+                    <Link href={`/sdgs/${sdgItem.id}`} className="group">
                       <div
                         className={cn(
                           "relative aspect-square overflow-hidden rounded-xl transition-all duration-200",
@@ -374,11 +370,7 @@ export default function SingleSDGView({ id }: { id: number }) {
 
                 {/* All SDGs link */}
                 <li>
-                  <Link
-                    href="/sdgs"
-                    onClick={() => setMobileNavOpen(false)}
-                    className="group"
-                  >
+                  <Link href="/sdgs" className="group">
                     <div className="relative aspect-square overflow-hidden rounded-xl transition-all duration-200 active:scale-95">
                       <Image
                         src="/sdgs/sdg.png"
@@ -515,9 +507,11 @@ export default function SingleSDGView({ id }: { id: number }) {
         )}
         {articles.length > 3 && (
           <div className="flex w-full justify-end">
-            <Button variant="link" className="dark:text-secondary">
-              See more
-              <SquareArrowOutUpRight />
+            <Button variant="link" asChild className="dark:text-secondary">
+              <Link href="/articles">
+                See more
+                <SquareArrowOutUpRight />
+              </Link>
             </Button>
           </div>
         )}

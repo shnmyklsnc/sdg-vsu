@@ -102,3 +102,11 @@ export function sortSubmissionsByDate(submissions: Submission[]): Submission[] {
     return (b.date as Date).getTime() - (a.date as Date).getTime();
   });
 }
+
+export function isExternalUrl(url: string) {
+  return (
+    url.startsWith("http://") ||
+    url.startsWith("https://") ||
+    url.startsWith("www.")
+  );
+}
