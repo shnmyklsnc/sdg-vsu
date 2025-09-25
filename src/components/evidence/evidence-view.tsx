@@ -41,7 +41,7 @@ export default function EvidenceView({
 
   const articles = useMemo(() => {
     const filtered = articlesData.filter(article =>
-      article.relatedSdgs.includes(parseInt(submissionId, 10))
+      article.relatedSubmissions?.includes(parseInt(submissionId, 10))
     );
     const sorted = sortArticlesByDate(filtered);
     return sorted.slice(0, 3); // Top 3 most recent
