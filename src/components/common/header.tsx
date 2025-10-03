@@ -445,9 +445,7 @@ export default function HeaderMobile() {
                 className="dark:text-primary/70 dark:hover:text-primary/60 relative h-8 w-full justify-start rounded-[0.5rem] text-sm font-normal text-white/30 hover:text-white/60 sm:pr-12 md:w-40 lg:w-56 xl:w-64"
                 onClick={() => setIsCommandOpen(true)}
               >
-                <span className="hidden lg:inline-flex">
-                  Search documents...
-                </span>
+                <span className="hidden lg:inline-flex">Search goals...</span>
                 <span className="inline-flex lg:hidden">Search...</span>
                 <kbd className="pointer-events-none absolute top-[0.3rem] right-[0.3rem] hidden h-5 items-center gap-1 rounded border border-green-900/80 bg-green-900/80 px-1.5 font-mono text-[10px] font-medium text-white/60 opacity-100 select-none sm:flex dark:border-yellow-600/80 dark:bg-yellow-600/80 dark:text-white/80">
                   <span className="text-xs">⌘</span>K
