@@ -50,9 +50,21 @@ export const PDFViewer = ({ url, className }: PDFViewerProps) => {
           setIsLoading(true);
           setError(null);
 
+          // Fetch the PDF as ArrayBuffer to avoid Safari URL parsing issues
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch PDF: ${response.statusText}`);
+          }
+          const arrayBuffer = await response.arrayBuffer();
+
           const loadingTask = pdfjs.getDocument({
-            url,
+            data: arrayBuffer, // Use data instead of url to bypass Safari's URL issues
             withCredentials: false,
+            isEvalSupported: false,
+            useSystemFonts: true,
+            disableAutoFetch: false,
+            disableStream: false,
+            disableFontFace: false,
           });
 
           const pdfDoc = await loadingTask.promise;
